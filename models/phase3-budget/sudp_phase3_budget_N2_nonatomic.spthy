@@ -1,0 +1,96 @@
+/*
+ * SUDP — Phase III, budget d'exécution N=2, variante NON ATOMIQUE
+ * ====================================================================
+ * Compagnon de sudp_phase3_budget_N2_atomic.spthy. Même défaut qu'en
+ * N=1 (Read-puis-Commit au lieu de lire-et-réserver en un seul pas),
+ * reproduit à chaque palier du compteur : Read_Counter_NonAtomic_Zero et
+ * Read_Counter_NonAtomic_One redéposent l'état qu'elles lisent au lieu de
+ * le réserver. But : montrer que le défaut d'atomicité n'est pas
+ * spécifique à N=1 -- c'est le verrouillage du compteur qui est en
+ * cause, pas la valeur du budget.
+ */
+
+theory SUDP_Phase3_Budget_N2_NonAtomic
+begin
+
+builtins: hashing, signing, asymmetric-encryption
+
+rule Setup_Authorizer:
+    [ Fr(~ltkU) ]
+  --[ AuthorizerKeyGen($U, ~ltkU) ]->
+    [ !LtkU($U, ~ltkU), !Registry($U, pk(~ltkU)), Out(pk(~ltkU)) ]
+
+rule Setup_Custodian:
+    [ Fr(~ltkT) ]
+  --[ CustodianKeyGen($T, ~ltkT) ]->
+    [ !LtkT($T, ~ltkT), !PkT($T, pk(~ltkT)), Out(pk(~ltkT)) ]
+
+rule Custodian_Issue_Challenge:
+    [ Fr(~r), In(o) ]
+  --[ ChallengeIssued($T, ~r, o) ]->
+    [ Out(<o, ~r>), Fresh($T, ~r) ]
+
+rule Authorizer_Sign:
+    [ !LtkU($U, ~ltkU), In(<o, r>), Fr(~wstar), !PkT($T, pkT) ]
+  --[ AuthorizerSigned($U, $T, o, r, ~wstar) ]->
+    [ Out( aenc(
+             <o, r, $U, ~wstar, sign(h(<'DSbind', r, h(o)>), ~ltkU)>,
+             pkT )
+         )
+    ]
+
+rule Custodian_Attempt_Redeem:
+    [ Fresh($T, r), In(msg) ]
+  --[ RedeemAttempt($T, r) ]->
+    [ St_Redeeming($T, r, msg) ]
+
+rule Custodian_Redeem_Success:
+    [ !LtkT($T, ~ltkT),
+      St_Redeeming($T, r, aenc(<o, r, cidU, wstar, sig>, pk(~ltkT))),
+      !Registry(cidU, pkU)
+    ]
+  --[ Redeemed($T, cidU, o, r, wstar),
+      Eq( verify(sig, h(<'DSbind', r, h(o)>), pkU), true )
+    ]->
+    [ !RedeemedGrant($T, cidU, o, wstar, r), CounterZero(r) ]
+
+restriction Equality:
+  "All x y #i. Eq(x, y) @ i ==> x = y"
+
+/*
+ * Phase III -- budget N=2, NON ATOMIQUE. Chaque palier du compteur a sa
+ * propre lecture non réservante.
+ */
+rule Read_Counter_NonAtomic_Zero:
+    [ !RedeemedGrant($T, cidU, o, wstar, r), CounterZero(r) ]
+  --[ CounterRead(r) ]->
+    [ CounterZero(r), InFlight(r) ]
+
+rule Read_Counter_NonAtomic_One:
+    [ !RedeemedGrant($T, cidU, o, wstar, r), CounterOne(r) ]
+  --[ CounterRead(r) ]->
+    [ CounterOne(r), InFlight(r) ]
+
+rule Commit_Execution_NonAtomic:
+    [ InFlight(r) ]
+  --[ Executed(r) ]->
+    [ ]
+
+lemma executable_two_executions:
+  exists-trace
+  "Ex r #i #j. Executed(r) @ i & Executed(r) @ j & not (#i = #j)"
+
+/*
+ * Attendu : FALSIFIÉ -- trois sessions entrelacées (ou plus) lisent
+ * toutes CounterZero(r) avant qu'aucune n'ait committé, dépassant le
+ * budget de deux exécutions sans jamais atteindre CounterOne(r)/
+ * CounterExhausted(r). Contre-exemple de nécessité pour N=2, confirmant
+ * que c'est l'atomicité -- pas la valeur de N -- qui est en cause.
+ */
+lemma UB_N2_nonatomic_at_most_two_executions:
+  all-traces
+  "All r #i #j #k.
+     Executed(r) @ i & Executed(r) @ j & Executed(r) @ k
+     ==> (#i = #j) | (#i = #k) | (#j = #k)"
+
+end

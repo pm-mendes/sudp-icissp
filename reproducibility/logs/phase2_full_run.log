@@ -1,0 +1,323 @@
+theory SUDP_PhaseII
+
+begin
+
+// Function signature and definition of the equational theory E
+
+functions: adec/2, aenc/2, fst/1, h/1, pair/2, pk/1, sign/2, snd/1,
+           true/0, verify/3
+equations:
+    adec(aenc(x.1, pk(x.2)), x.2) = x.1,
+    fst(<x.1, x.2>) = x.1,
+    snd(<x.1, x.2>) = x.2,
+    verify(sign(x.1, x.2), x.1, pk(x.2)) = true
+
+rule (modulo E) Setup_Authorizer:
+   [ Fr( ~ltkU ) ]
+  --[ AuthorizerKeyGen( $U, ~ltkU ) ]->
+   [ !LtkU( $U, ~ltkU ), !Registry( $U, pk(~ltkU) ), Out( pk(~ltkU) ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Setup_Custodian:
+   [ Fr( ~ltkT ) ]
+  --[ CustodianKeyGen( $T, ~ltkT ) ]->
+   [ !LtkT( $T, ~ltkT ), !PkT( $T, pk(~ltkT) ), Out( pk(~ltkT) ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Custodian_Issue_Challenge:
+   [ Fr( ~r ), In( o ) ]
+  --[ ChallengeIssued( $T, ~r, o ) ]->
+   [ Out( <o, ~r> ), Fresh( $T, ~r ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Authorizer_Sign:
+   [ !LtkU( $U, ~ltkU ), In( <o, r> ), Fr( ~wstar ), !PkT( $T, pkT ) ]
+  --[ AuthorizerSigned( $U, $T, o, r, ~wstar ) ]->
+   [
+   Out( aenc(<o, r, $U, ~wstar, sign(h(<'DSbind', r, h(o)>), ~ltkU)>, pkT) )
+   ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Custodian_Attempt_Redeem:
+   [ Fresh( $T, r ), In( msg ) ]
+  --[ RedeemAttempt( $T, r ) ]->
+   [ St_Redeeming( $T, r, msg ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Custodian_Redeem_Success:
+   [
+   !LtkT( $T, ~ltkT ),
+   St_Redeeming( $T, r, aenc(<o, r, cidU, wstar, sig>, pk(~ltkT)) ),
+   !Registry( cidU, pkU )
+   ]
+  --[
+  Redeemed( $T, cidU, o, r, wstar ),
+  Eq( verify(sig, h(<'DSbind', r, h(o)>), pkU), true )
+  ]->
+   [ !RedeemedGrant( $T, cidU, o, wstar ) ]
+
+  /*
+  rule (modulo AC) Custodian_Redeem_Success:
+     [
+     !LtkT( $T, ~ltkT ),
+     St_Redeeming( $T, r, aenc(<o, r, cidU, wstar, sig>, pk(~ltkT)) ),
+     !Registry( cidU, pkU )
+     ]
+    --[ Redeemed( $T, cidU, o, r, wstar ), Eq( z, true ) ]->
+     [ !RedeemedGrant( $T, cidU, o, wstar ) ]
+    variants (modulo AC)
+    1. o     = o.10
+       pkU   = pkU.10
+       r     = r.10
+       sig   = sig.10
+       z     = verify(sig.10, h(<'DSbind', r.10, h(o.10)>), pkU.10)
+    
+    2. o     = x.10
+       pkU   = pk(x.11)
+       r     = x.12
+       sig   = sign(h(<'DSbind', x.12, h(x.10)>), x.11)
+       z     = true
+  */
+
+restriction Equality:
+  "∀ x y #i. (Eq( x, y ) @ #i) ⇒ (x = y)"
+  // safety formula
+
+  /*
+  expanded formula:
+  "∀ x y #i. (Eq( x, y ) @ #i) ⇒ (x = y)"
+  */
+
+lemma executable:
+  exists-trace
+  "∃ T cidU o r wstar #i. Redeemed( T, cidU, o, r, wstar ) @ #i"
+/*
+guarded formula characterizing all satisfying traces:
+"∃ T cidU o r wstar #i. (Redeemed( T, cidU, o, r, wstar ) @ #i)"
+*/
+simplify
+solve( !LtkT( $T, ~ltkT ) ▶₀ #i )
+  case Setup_Custodian
+  solve( St_Redeeming( $T, r,
+                       aenc(<o, r, cidU, wstar, sign(h(<'DSbind', r, h(o)>), x)>, pk(~ltkT))
+         ) ▶₁ #i )
+    case Custodian_Attempt_Redeem
+    solve( !Registry( cidU, pk(x) ) ▶₂ #i )
+      case Setup_Authorizer
+      solve( !KU( aenc(<o, ~r, $U, wstar, sign(h(<'DSbind', ~r, h(o)>), ~ltkU)
+                       >,
+                       pk(~ltkT))
+             ) @ #vk )
+        case Authorizer_Sign
+        solve( !KU( ~r ) @ #vk.4 )
+          case Custodian_Issue_Challenge
+          SOLVED // trace found
+        qed
+      qed
+    qed
+  qed
+qed
+
+lemma AV_authorization_verifiability:
+  all-traces
+  "∀ T cidU o r wstar #i.
+    (Redeemed( T, cidU, o, r, wstar ) @ #i) ⇒
+    (∃ T2 #j. (AuthorizerSigned( cidU, T2, o, r, wstar ) @ #j) ∧ (#j < #i))"
+/*
+guarded formula characterizing all counter-examples:
+"∃ T cidU o r wstar #i.
+  (Redeemed( T, cidU, o, r, wstar ) @ #i)
+ ∧
+  ∀ T2 #j. (AuthorizerSigned( cidU, T2, o, r, wstar ) @ #j) ⇒ ¬(#j < #i)"
+*/
+simplify
+solve( !LtkT( $T, ~ltkT ) ▶₀ #i )
+  case Setup_Custodian
+  solve( St_Redeeming( $T, r,
+                       aenc(<o, r, cidU, wstar, sign(h(<'DSbind', r, h(o)>), x)>, pk(~ltkT))
+         ) ▶₁ #i )
+    case Custodian_Attempt_Redeem
+    solve( !Registry( cidU, pk(x) ) ▶₂ #i )
+      case Setup_Authorizer
+      solve( !KU( aenc(<o, ~r, $U, wstar, sign(h(<'DSbind', ~r, h(o)>), ~ltkU)
+                       >,
+                       pk(~ltkT))
+             ) @ #vk )
+        case Authorizer_Sign
+        by contradiction /* from formulas */
+      next
+        case c_aenc
+        solve( !KU( sign(h(<'DSbind', ~r, h(o)>), ~ltkU) ) @ #vk.11 )
+          case Authorizer_Sign
+          by solve( !KU( ~ltkT.1 ) @ #vk.13 )
+        next
+          case c_sign
+          by solve( !KU( ~ltkU ) @ #vk.13 )
+        qed
+      qed
+    qed
+  qed
+qed
+
+lemma OB_operation_binding:
+  all-traces
+  "∀ T cidU o o2 r wstar #i #j.
+    ((Redeemed( T, cidU, o, r, wstar ) @ #i) ∧
+     (AuthorizerSigned( cidU, T, o2, r, wstar ) @ #j)) ⇒
+    (o = o2)"
+/*
+guarded formula characterizing all counter-examples:
+"∃ T cidU o o2 r wstar #i #j.
+  (Redeemed( T, cidU, o, r, wstar ) @ #i) ∧
+  (AuthorizerSigned( cidU, T, o2, r, wstar ) @ #j)
+ ∧
+  ¬(o = o2)"
+*/
+simplify
+solve( !LtkT( $T, ~ltkT ) ▶₀ #i )
+  case Setup_Custodian
+  solve( St_Redeeming( $T, r,
+                       aenc(<o, r, $U, ~wstar, sign(h(<'DSbind', r, h(o)>), x)>, pk(~ltkT))
+         ) ▶₁ #i )
+    case Custodian_Attempt_Redeem
+    solve( !Registry( $U, pk(x) ) ▶₂ #i )
+      case Setup_Authorizer
+      solve( !LtkU( $U, ~ltkU.1 ) ▶₀ #j )
+        case Setup_Authorizer
+        solve( !PkT( $T, pkT ) ▶₃ #j )
+          case Setup_Custodian
+          solve( !KU( aenc(<o, ~r, $U, ~wstar, sign(h(<'DSbind', ~r, h(o)>), ~ltkU)
+                           >,
+                           pk(~ltkT))
+                 ) @ #vk.3 )
+            case Authorizer_Sign
+            by contradiction /* from formulas */
+          next
+            case c_aenc
+            solve( !KU( ~wstar ) @ #vk.12 )
+              case Authorizer_Sign
+              by solve( !KU( ~ltkT.1 ) @ #vk.14 )
+            qed
+          qed
+        qed
+      qed
+    qed
+  qed
+qed
+
+lemma CRC_wrapping_key_secrecy:
+  all-traces
+  "∀ U T o r wstar #i.
+    (AuthorizerSigned( U, T, o, r, wstar ) @ #i) ⇒
+    (¬(∃ #j. K( wstar ) @ #j))"
+/*
+guarded formula characterizing all counter-examples:
+"∃ U T o r wstar #i.
+  (AuthorizerSigned( U, T, o, r, wstar ) @ #i) ∧ ∃ #j. (K( wstar ) @ #j)"
+*/
+simplify
+solve( !LtkU( $U, ~ltkU ) ▶₀ #i )
+  case Setup_Authorizer
+  solve( !PkT( $T, pkT ) ▶₃ #i )
+    case Setup_Custodian
+    solve( !KU( ~wstar ) @ #vk.3 )
+      case Authorizer_Sign
+      by solve( !KU( ~ltkT ) @ #vk.4 )
+    qed
+  qed
+qed
+
+lemma UB_challenge_single_redemption_partial:
+  all-traces
+  "∀ T cidU1 cidU2 o1 o2 r wstar1 wstar2 #i #j.
+    ((Redeemed( T, cidU1, o1, r, wstar1 ) @ #i) ∧
+     (Redeemed( T, cidU2, o2, r, wstar2 ) @ #j)) ⇒
+    (#i = #j)"
+/*
+guarded formula characterizing all counter-examples:
+"∃ T cidU1 cidU2 o1 o2 r wstar1 wstar2 #i #j.
+  (Redeemed( T, cidU1, o1, r, wstar1 ) @ #i) ∧
+  (Redeemed( T, cidU2, o2, r, wstar2 ) @ #j)
+ ∧
+  ¬(#i = #j)"
+*/
+simplify
+solve( (#i < #j)  ∥ (#j < #i) )
+  case case_1
+  solve( !LtkT( $T, ~ltkT ) ▶₀ #i )
+    case Setup_Custodian
+    solve( St_Redeeming( $T, r,
+                         aenc(<o1, r, cidU1, wstar1, sign(h(<'DSbind', r, h(o1)>), x)>, pk(~ltkT))
+           ) ▶₁ #i )
+      case Custodian_Attempt_Redeem
+      solve( !Registry( cidU1, pk(x) ) ▶₂ #i )
+        case Setup_Authorizer
+        solve( !LtkT( $T, ~ltkT.1 ) ▶₀ #j )
+          case Setup_Custodian
+          solve( St_Redeeming( $T, ~r,
+                               aenc(<o2, ~r, cidU2, wstar2, sign(h(<'DSbind', ~r, h(o2)>), x)>,
+                                    pk(~ltkT.1))
+                 ) ▶₁ #j )
+            case Custodian_Attempt_Redeem
+            by contradiction /* cyclic */
+          qed
+        qed
+      qed
+    qed
+  qed
+next
+  case case_2
+  solve( !LtkT( $T, ~ltkT ) ▶₀ #i )
+    case Setup_Custodian
+    solve( St_Redeeming( $T, r,
+                         aenc(<o1, r, cidU1, wstar1, sign(h(<'DSbind', r, h(o1)>), x)>, pk(~ltkT))
+           ) ▶₁ #i )
+      case Custodian_Attempt_Redeem
+      solve( !Registry( cidU1, pk(x) ) ▶₂ #i )
+        case Setup_Authorizer
+        solve( !LtkT( $T, ~ltkT.1 ) ▶₀ #j )
+          case Setup_Custodian
+          solve( St_Redeeming( $T, ~r,
+                               aenc(<o2, ~r, cidU2, wstar2, sign(h(<'DSbind', ~r, h(o2)>), x)>,
+                                    pk(~ltkT.1))
+                 ) ▶₁ #j )
+            case Custodian_Attempt_Redeem
+            by contradiction /* cyclic */
+          qed
+        qed
+      qed
+    qed
+  qed
+qed
+
+/* All wellformedness checks were successful. */
+
+/*
+Generated from:
+Tamarin version 1.12.0
+Maude version 3.2 (unsupported)
+Git revision: 82780bbaf3328a45f624ddb41e51bf75425f851c (with uncommited changes), branch: master
+Compiled at: 2026-03-07 14:22:39.174278293 UTC
+*/
+
+end
+
+==============================================================================
+summary of summaries:
+
+analyzed: models/phase2-grant-authorization/sudp_phase2.spthy
+
+  processing time: 2.02s
+  
+  executable (exists-trace): verified (7 steps)
+  AV_authorization_verifiability (all-traces): verified (9 steps)
+  OB_operation_binding (all-traces): verified (10 steps)
+  CRC_wrapping_key_secrecy (all-traces): verified (5 steps)
+  UB_challenge_single_redemption_partial (all-traces): verified (14 steps)
+
+==============================================================================

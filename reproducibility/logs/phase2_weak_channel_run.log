@@ -1,0 +1,196 @@
+theory SUDP_PhaseII_WeakChannel
+
+begin
+
+// Function signature and definition of the equational theory E
+
+functions: adec/2, aenc/2, fst/1, h/1, pair/2, pk/1, sign/2, snd/1,
+           true/0, verify/3
+equations:
+    adec(aenc(x.1, pk(x.2)), x.2) = x.1,
+    fst(<x.1, x.2>) = x.1,
+    snd(<x.1, x.2>) = x.2,
+    verify(sign(x.1, x.2), x.1, pk(x.2)) = true
+
+rule (modulo E) Setup_Authorizer:
+   [ Fr( ~ltkU ) ]
+  --[ AuthorizerKeyGen( $U, ~ltkU ) ]->
+   [ !LtkU( $U, ~ltkU ), !Registry( $U, pk(~ltkU) ), Out( pk(~ltkU) ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Setup_Custodian:
+   [ Fr( ~ltkT ) ]
+  --[ CustodianKeyGen( $T, ~ltkT ) ]->
+   [ !LtkT( $T, ~ltkT ), !PkT( $T, pk(~ltkT) ), Out( pk(~ltkT) ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Custodian_Issue_Challenge:
+   [ Fr( ~r ), In( o ) ]
+  --[ ChallengeIssued( $T, ~r, o ) ]->
+   [ Out( <o, ~r> ), Fresh( $T, ~r ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Authorizer_Sign_WEAK:
+   [ !LtkU( $U, ~ltkU ), In( <o, r> ), Fr( ~wstar ), !PkT( $T, pkT ) ]
+  --[ AuthorizerSigned( $U, $T, o, r, ~wstar ) ]->
+   [ Out( <o, r, $U, ~wstar, sign(h(<'DSbind', r, h(o)>), ~ltkU)> ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Custodian_Attempt_Redeem:
+   [ Fresh( $T, r ), In( msg ) ]
+  --[ RedeemAttempt( $T, r ) ]->
+   [ St_Redeeming( $T, r, msg ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Custodian_Redeem_Success:
+   [
+   !LtkT( $T, ~ltkT ), St_Redeeming( $T, r, <o, r, cidU, wstar, sig> ),
+   !Registry( cidU, pkU )
+   ]
+  --[
+  Redeemed( $T, cidU, o, r, wstar ),
+  Eq( verify(sig, h(<'DSbind', r, h(o)>), pkU), true )
+  ]->
+   [ !RedeemedGrant( $T, cidU, o, wstar ) ]
+
+  /*
+  rule (modulo AC) Custodian_Redeem_Success:
+     [
+     !LtkT( $T, ~ltkT ), St_Redeeming( $T, r, <o, r, cidU, wstar, sig> ),
+     !Registry( cidU, pkU )
+     ]
+    --[ Redeemed( $T, cidU, o, r, wstar ), Eq( z, true ) ]->
+     [ !RedeemedGrant( $T, cidU, o, wstar ) ]
+    variants (modulo AC)
+    1. o     = o.10
+       pkU   = pkU.10
+       r     = r.10
+       sig   = sig.10
+       z     = verify(sig.10, h(<'DSbind', r.10, h(o.10)>), pkU.10)
+    
+    2. o     = x.10
+       pkU   = pk(x.11)
+       r     = x.12
+       sig   = sign(h(<'DSbind', x.12, h(x.10)>), x.11)
+       z     = true
+  */
+
+restriction Equality:
+  "∀ x y #i. (Eq( x, y ) @ #i) ⇒ (x = y)"
+  // safety formula
+
+  /*
+  expanded formula:
+  "∀ x y #i. (Eq( x, y ) @ #i) ⇒ (x = y)"
+  */
+
+lemma executable:
+  exists-trace
+  "∃ T cidU o r wstar #i. Redeemed( T, cidU, o, r, wstar ) @ #i"
+/*
+guarded formula characterizing all satisfying traces:
+"∃ T cidU o r wstar #i. (Redeemed( T, cidU, o, r, wstar ) @ #i)"
+*/
+simplify
+solve( !LtkT( $T, ~ltkT ) ▶₀ #i )
+  case Setup_Custodian
+  solve( St_Redeeming( $T, r,
+                       <o, r, cidU, wstar, sign(h(<'DSbind', r, h(o)>), x)>
+         ) ▶₁ #i )
+    case Custodian_Attempt_Redeem
+    solve( !Registry( cidU, pk(x) ) ▶₂ #i )
+      case Setup_Authorizer
+      solve( !KU( sign(h(<'DSbind', ~r, h(o)>), ~ltkU) ) @ #vk.9 )
+        case Authorizer_Sign_WEAK
+        solve( !KU( ~r ) @ #vk.6 )
+          case Custodian_Issue_Challenge
+          SOLVED // trace found
+        qed
+      qed
+    qed
+  qed
+qed
+
+lemma CRC_wrapping_key_secrecy:
+  all-traces
+  "∀ U T o r wstar #i.
+    (AuthorizerSigned( U, T, o, r, wstar ) @ #i) ⇒
+    (¬(∃ #j. K( wstar ) @ #j))"
+/*
+guarded formula characterizing all counter-examples:
+"∃ U T o r wstar #i.
+  (AuthorizerSigned( U, T, o, r, wstar ) @ #i) ∧ ∃ #j. (K( wstar ) @ #j)"
+*/
+simplify
+solve( !LtkU( $U, ~ltkU ) ▶₀ #i )
+  case Setup_Authorizer
+  solve( !PkT( $T, pkT ) ▶₃ #i )
+    case Setup_Custodian
+    solve( !KU( ~wstar ) @ #vk.3 )
+      case Authorizer_Sign_WEAK
+      SOLVED // trace found
+    qed
+  qed
+qed
+
+lemma AV_authorization_verifiability:
+  all-traces
+  "∀ T cidU o r wstar #i.
+    (Redeemed( T, cidU, o, r, wstar ) @ #i) ⇒
+    (∃ T2 #j. (AuthorizerSigned( cidU, T2, o, r, wstar ) @ #j) ∧ (#j < #i))"
+/*
+guarded formula characterizing all counter-examples:
+"∃ T cidU o r wstar #i.
+  (Redeemed( T, cidU, o, r, wstar ) @ #i)
+ ∧
+  ∀ T2 #j. (AuthorizerSigned( cidU, T2, o, r, wstar ) @ #j) ⇒ ¬(#j < #i)"
+*/
+simplify
+solve( !LtkT( $T, ~ltkT ) ▶₀ #i )
+  case Setup_Custodian
+  solve( St_Redeeming( $T, r,
+                       <o, r, cidU, wstar, sign(h(<'DSbind', r, h(o)>), x)>
+         ) ▶₁ #i )
+    case Custodian_Attempt_Redeem
+    solve( !Registry( cidU, pk(x) ) ▶₂ #i )
+      case Setup_Authorizer
+      solve( !KU( sign(h(<'DSbind', ~r, h(o)>), ~ltkU) ) @ #vk.9 )
+        case Authorizer_Sign_WEAK
+        solve( !KU( ~r ) @ #vk.6 )
+          case Custodian_Issue_Challenge
+          SOLVED // trace found
+        qed
+      qed
+    qed
+  qed
+qed
+
+/* All wellformedness checks were successful. */
+
+/*
+Generated from:
+Tamarin version 1.12.0
+Maude version 3.2 (unsupported)
+Git revision: 82780bbaf3328a45f624ddb41e51bf75425f851c (with uncommited changes), branch: master
+Compiled at: 2026-03-07 14:22:39.174278293 UTC
+*/
+
+end
+
+==============================================================================
+summary of summaries:
+
+analyzed: models/phase2-grant-authorization/hypothesis-necessity/sudp_phase2_weak_channel.spthy
+
+  processing time: 1.39s
+  
+  executable (exists-trace): verified (7 steps)
+  CRC_wrapping_key_secrecy (all-traces): falsified - found trace (5 steps)
+  AV_authorization_verifiability (all-traces): falsified - found trace (7 steps)
+
+==============================================================================

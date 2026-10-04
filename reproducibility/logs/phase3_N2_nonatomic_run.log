@@ -1,0 +1,238 @@
+theory SUDP_Phase3_Budget_N2_NonAtomic
+
+begin
+
+// Function signature and definition of the equational theory E
+
+functions: adec/2, aenc/2, fst/1, h/1, pair/2, pk/1, sign/2, snd/1,
+           true/0, verify/3
+equations:
+    adec(aenc(x.1, pk(x.2)), x.2) = x.1,
+    fst(<x.1, x.2>) = x.1,
+    snd(<x.1, x.2>) = x.2,
+    verify(sign(x.1, x.2), x.1, pk(x.2)) = true
+
+/* looping facts with injective instances: CounterOne/1 */
+
+rule (modulo E) Setup_Authorizer:
+   [ Fr( ~ltkU ) ]
+  --[ AuthorizerKeyGen( $U, ~ltkU ) ]->
+   [ !LtkU( $U, ~ltkU ), !Registry( $U, pk(~ltkU) ), Out( pk(~ltkU) ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Setup_Custodian:
+   [ Fr( ~ltkT ) ]
+  --[ CustodianKeyGen( $T, ~ltkT ) ]->
+   [ !LtkT( $T, ~ltkT ), !PkT( $T, pk(~ltkT) ), Out( pk(~ltkT) ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Custodian_Issue_Challenge:
+   [ Fr( ~r ), In( o ) ]
+  --[ ChallengeIssued( $T, ~r, o ) ]->
+   [ Out( <o, ~r> ), Fresh( $T, ~r ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Authorizer_Sign:
+   [ !LtkU( $U, ~ltkU ), In( <o, r> ), Fr( ~wstar ), !PkT( $T, pkT ) ]
+  --[ AuthorizerSigned( $U, $T, o, r, ~wstar ) ]->
+   [
+   Out( aenc(<o, r, $U, ~wstar, sign(h(<'DSbind', r, h(o)>), ~ltkU)>, pkT) )
+   ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Custodian_Attempt_Redeem:
+   [ Fresh( $T, r ), In( msg ) ]
+  --[ RedeemAttempt( $T, r ) ]->
+   [ St_Redeeming( $T, r, msg ) ]
+
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Custodian_Redeem_Success:
+   [
+   !LtkT( $T, ~ltkT ),
+   St_Redeeming( $T, r, aenc(<o, r, cidU, wstar, sig>, pk(~ltkT)) ),
+   !Registry( cidU, pkU )
+   ]
+  --[
+  Redeemed( $T, cidU, o, r, wstar ),
+  Eq( verify(sig, h(<'DSbind', r, h(o)>), pkU), true )
+  ]->
+   [ !RedeemedGrant( $T, cidU, o, wstar, r ), CounterZero( r ) ]
+
+  /*
+  rule (modulo AC) Custodian_Redeem_Success:
+     [
+     !LtkT( $T, ~ltkT ),
+     St_Redeeming( $T, r, aenc(<o, r, cidU, wstar, sig>, pk(~ltkT)) ),
+     !Registry( cidU, pkU )
+     ]
+    --[ Redeemed( $T, cidU, o, r, wstar ), Eq( z, true ) ]->
+     [ !RedeemedGrant( $T, cidU, o, wstar, r ), CounterZero( r ) ]
+    variants (modulo AC)
+    1. o     = o.10
+       pkU   = pkU.10
+       r     = r.10
+       sig   = sig.10
+       z     = verify(sig.10, h(<'DSbind', r.10, h(o.10)>), pkU.10)
+    
+    2. o     = x.10
+       pkU   = pk(x.11)
+       r     = x.12
+       sig   = sign(h(<'DSbind', x.12, h(x.10)>), x.11)
+       z     = true
+  */
+
+restriction Equality:
+  "∀ x y #i. (Eq( x, y ) @ #i) ⇒ (x = y)"
+  // safety formula
+
+  /*
+  expanded formula:
+  "∀ x y #i. (Eq( x, y ) @ #i) ⇒ (x = y)"
+  */
+
+rule (modulo E) Read_Counter_NonAtomic_Zero:
+   [ !RedeemedGrant( $T, cidU, o, wstar, r ), CounterZero( r ) ]
+  --[ CounterRead( r ) ]->
+   [ CounterZero( r ), InFlight( r ) ]
+
+  // loop breaker: [1]
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Read_Counter_NonAtomic_One:
+   [ !RedeemedGrant( $T, cidU, o, wstar, r ), CounterOne( r ) ]
+  --[ CounterRead( r ) ]->
+   [ CounterOne( r ), InFlight( r ) ]
+
+  // loop breaker: [1]
+  /* has exactly the trivial AC variant */
+
+rule (modulo E) Commit_Execution_NonAtomic:
+   [ InFlight( r ) ] --[ Executed( r ) ]-> [ ]
+
+  /* has exactly the trivial AC variant */
+
+lemma executable_two_executions:
+  exists-trace
+  "∃ r #i #j. ((Executed( r ) @ #i) ∧ (Executed( r ) @ #j)) ∧ (¬(#i = #j))"
+/*
+guarded formula characterizing all satisfying traces:
+"∃ r #i #j. (Executed( r ) @ #i) ∧ (Executed( r ) @ #j) ∧ ¬(#i = #j)"
+*/
+simplify
+solve( (#i < #j)  ∥ (#j < #i) )
+  case case_1
+  solve( InFlight( r ) ▶₀ #i )
+    case Read_Counter_NonAtomic_Zero
+    solve( InFlight( ~r ) ▶₀ #j )
+      case Read_Counter_NonAtomic_Zero
+      solve( !KU( aenc(<o, ~r, $U, wstar, sign(h(<'DSbind', ~r, h(o)>), ~ltkU)
+                       >,
+                       pk(~ltkT))
+             ) @ #vk )
+        case Authorizer_Sign
+        solve( CounterZero( ~r ) ▶₁ #vr )
+          case Custodian_Redeem_Success
+          solve( CounterZero( ~r ) ▶₁ #vr.6 )
+            case Read_Counter_NonAtomic_Zero
+            solve( CounterZero( ~r ) ▶₁ #vr.8 )
+              case Custodian_Redeem_Success
+              solve( !KU( ~r ) @ #vk.4 )
+                case Custodian_Issue_Challenge
+                SOLVED // trace found
+              qed
+            qed
+          qed
+        qed
+      qed
+    qed
+  qed
+qed
+
+lemma UB_N2_nonatomic_at_most_two_executions:
+  all-traces
+  "∀ r #i #j #k.
+    (((Executed( r ) @ #i) ∧ (Executed( r ) @ #j)) ∧ (Executed( r ) @ #k)) ⇒
+    (((#i = #j) ∨ (#i = #k)) ∨ (#j = #k))"
+/*
+guarded formula characterizing all counter-examples:
+"∃ r #i #j #k.
+  (Executed( r ) @ #i) ∧ (Executed( r ) @ #j) ∧ (Executed( r ) @ #k)
+ ∧
+  (¬(#i = #j)) ∧ (¬(#i = #k)) ∧ (¬(#j = #k))"
+*/
+simplify
+solve( (#i < #j)  ∥ (#j < #i) )
+  case case_1
+  solve( (#i < #k)  ∥ (#k < #i) )
+    case case_1
+    solve( (#j < #k)  ∥ (#k < #j) )
+      case case_1
+      solve( InFlight( r ) ▶₀ #i )
+        case Read_Counter_NonAtomic_Zero
+        solve( InFlight( ~r ) ▶₀ #j )
+          case Read_Counter_NonAtomic_Zero
+          solve( InFlight( ~r ) ▶₀ #k )
+            case Read_Counter_NonAtomic_Zero
+            solve( !KU( aenc(<o, ~r, $U, wstar, sign(h(<'DSbind', ~r, h(o)>), ~ltkU)
+                             >,
+                             pk(~ltkT))
+                   ) @ #vk )
+              case Authorizer_Sign
+              solve( CounterZero( ~r ) ▶₁ #vr )
+                case Custodian_Redeem_Success
+                solve( CounterZero( ~r ) ▶₁ #vr.6 )
+                  case Read_Counter_NonAtomic_Zero
+                  solve( CounterZero( ~r ) ▶₁ #vr.7 )
+                    case Read_Counter_NonAtomic_Zero
+                    solve( CounterZero( ~r ) ▶₁ #vr.9 )
+                      case Custodian_Redeem_Success
+                      solve( CounterZero( ~r ) ▶₁ #vr.9 )
+                        case Read_Counter_NonAtomic_Zero
+                        solve( CounterZero( ~r ) ▶₁ #vr.10 )
+                          case Custodian_Redeem_Success
+                          solve( !KU( ~r ) @ #vk.4 )
+                            case Custodian_Issue_Challenge
+                            SOLVED // trace found
+                          qed
+                        qed
+                      qed
+                    qed
+                  qed
+                qed
+              qed
+            qed
+          qed
+        qed
+      qed
+    qed
+  qed
+qed
+
+/* All wellformedness checks were successful. */
+
+/*
+Generated from:
+Tamarin version 1.12.0
+Maude version 3.2 (unsupported)
+Git revision: 82780bbaf3328a45f624ddb41e51bf75425f851c (with uncommited changes), branch: master
+Compiled at: 2026-03-07 14:22:39.174278293 UTC
+*/
+
+end
+
+==============================================================================
+summary of summaries:
+
+analyzed: models/phase3-budget/sudp_phase3_budget_N2_nonatomic.spthy
+
+  processing time: 19.12s
+  
+  executable_two_executions (exists-trace): verified (10 steps)
+  UB_N2_nonatomic_at_most_two_executions (all-traces): falsified - found trace (16 steps)
+
+==============================================================================

@@ -1,0 +1,14 @@
+# Suivi académique interne — ne concerne pas le dépôt technique
+AUDIT-SUDP-2026-10-03.md
+
+# OS / éditeurs
+.DS_Store
+*.swp
+*~
+
+# Artefacts de compilation LaTeX, si un .tex venait à être testé ici
+*.aux
+*.bbl
+*.blg
+*.out
+*.synctex.gz

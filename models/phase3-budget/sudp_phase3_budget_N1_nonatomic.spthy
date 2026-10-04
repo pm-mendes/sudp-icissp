@@ -1,0 +1,98 @@
+/*
+ * SUDP — Phase III, budget d'exécution N=1, variante NON ATOMIQUE
+ * ====================================================================
+ * Compagnon de sudp_phase3_budget_N1_atomic.spthy — SEULE différence : la
+ * règle Execute_Atomic (lire-et-mettre-à-jour en une étape) y est
+ * remplacée par la paire Read_Counter_NonAtomic / Commit_Execution_NonAtomic
+ * (lire puis, séparément, committer). Isolé dans son propre fichier pour
+ * la même raison que la variante "canal II.2 affaibli" de la Phase II :
+ * ne jamais faire coexister une variante affaiblie et la variante de
+ * référence dans une seule théorie Tamarin.
+ *
+ * Défaut modélisé : Read_Counter_NonAtomic "consulte" CounterZero(r) mais
+ * le redépose inchangé au lieu de le réserver -- exactement le défaut
+ * d'un compteur durable lu puis écrit sans verrou / compare-and-swap.
+ * Deux instances concurrentes de Read_Counter_NonAtomic sur le même r
+ * (deux sessions entrelacées) peuvent toutes deux consommer-et-redéposer
+ * CounterZero(r) avant qu'aucun Commit_Execution_NonAtomic n'ait eu lieu,
+ * produisant deux InFlight(r) distincts, donc deux Executed(r) distinctes
+ * pour un budget censé n'en admettre qu'une.
+ */
+
+theory SUDP_Phase3_Budget_N1_NonAtomic
+begin
+
+builtins: hashing, signing, asymmetric-encryption
+
+rule Setup_Authorizer:
+    [ Fr(~ltkU) ]
+  --[ AuthorizerKeyGen($U, ~ltkU) ]->
+    [ !LtkU($U, ~ltkU), !Registry($U, pk(~ltkU)), Out(pk(~ltkU)) ]
+
+rule Setup_Custodian:
+    [ Fr(~ltkT) ]
+  --[ CustodianKeyGen($T, ~ltkT) ]->
+    [ !LtkT($T, ~ltkT), !PkT($T, pk(~ltkT)), Out(pk(~ltkT)) ]
+
+rule Custodian_Issue_Challenge:
+    [ Fr(~r), In(o) ]
+  --[ ChallengeIssued($T, ~r, o) ]->
+    [ Out(<o, ~r>), Fresh($T, ~r) ]
+
+rule Authorizer_Sign:
+    [ !LtkU($U, ~ltkU), In(<o, r>), Fr(~wstar), !PkT($T, pkT) ]
+  --[ AuthorizerSigned($U, $T, o, r, ~wstar) ]->
+    [ Out( aenc(
+             <o, r, $U, ~wstar, sign(h(<'DSbind', r, h(o)>), ~ltkU)>,
+             pkT )
+         )
+    ]
+
+rule Custodian_Attempt_Redeem:
+    [ Fresh($T, r), In(msg) ]
+  --[ RedeemAttempt($T, r) ]->
+    [ St_Redeeming($T, r, msg) ]
+
+rule Custodian_Redeem_Success:
+    [ !LtkT($T, ~ltkT),
+      St_Redeeming($T, r, aenc(<o, r, cidU, wstar, sig>, pk(~ltkT))),
+      !Registry(cidU, pkU)
+    ]
+  --[ Redeemed($T, cidU, o, r, wstar),
+      Eq( verify(sig, h(<'DSbind', r, h(o)>), pkU), true )
+    ]->
+    [ !RedeemedGrant($T, cidU, o, wstar, r), CounterZero(r) ]
+
+restriction Equality:
+  "All x y #i. Eq(x, y) @ i ==> x = y"
+
+/*
+ * Phase III -- admission sous budget N=1, NON ATOMIQUE.
+ * Read_Counter_NonAtomic ne consomme pas réellement le droit d'exécution :
+ * il redépose CounterZero(r) tel quel, donc une deuxième session peut le
+ * relire avant que la première n'ait committé.
+ */
+rule Read_Counter_NonAtomic:
+    [ !RedeemedGrant($T, cidU, o, wstar, r), CounterZero(r) ]
+  --[ CounterRead(r) ]->
+    [ CounterZero(r), InFlight(r) ]
+
+rule Commit_Execution_NonAtomic:
+    [ InFlight(r) ]
+  --[ Executed(r) ]->
+    [ CounterExhaustedNonAtomic(r) ]
+
+lemma executable:
+  exists-trace
+  "Ex r #i. Executed(r) @ i"
+
+/*
+ * Attendu : FALSIFIÉ -- contre-exemple de nécessité pour l'atomicité du
+ * compteur durable, sans aucune intervention réseau (défaut purement
+ * interne au custodian / à son stockage d'état).
+ */
+lemma UB_N1_nonatomic_at_most_one_execution:
+  all-traces
+  "All r #i #j. Executed(r) @ i & Executed(r) @ j ==> #i = #j"
+
+end

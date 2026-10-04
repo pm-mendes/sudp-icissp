@@ -1,0 +1,89 @@
+/*
+ * SUDP — Phase III, budget d'exécution N=2, variante ATOMIQUE
+ * ================================================================
+ * Généralise sudp_phase3_budget_N1_atomic.spthy à un budget de deux
+ * exécutions : le compteur traverse explicitement CounterZero(r) ->
+ * CounterOne(r) -> CounterExhausted(r), chaque transition étant une
+ * unique règle MSR indivisible. Deux lemmes d'exécutabilité : atteindre
+ * UNE exécution, et atteindre les DEUX (le budget complet est
+ * effectivement consommable, pas seulement borné).
+ */
+
+theory SUDP_Phase3_Budget_N2_Atomic
+begin
+
+builtins: hashing, signing, asymmetric-encryption
+
+rule Setup_Authorizer:
+    [ Fr(~ltkU) ]
+  --[ AuthorizerKeyGen($U, ~ltkU) ]->
+    [ !LtkU($U, ~ltkU), !Registry($U, pk(~ltkU)), Out(pk(~ltkU)) ]
+
+rule Setup_Custodian:
+    [ Fr(~ltkT) ]
+  --[ CustodianKeyGen($T, ~ltkT) ]->
+    [ !LtkT($T, ~ltkT), !PkT($T, pk(~ltkT)), Out(pk(~ltkT)) ]
+
+rule Custodian_Issue_Challenge:
+    [ Fr(~r), In(o) ]
+  --[ ChallengeIssued($T, ~r, o) ]->
+    [ Out(<o, ~r>), Fresh($T, ~r) ]
+
+rule Authorizer_Sign:
+    [ !LtkU($U, ~ltkU), In(<o, r>), Fr(~wstar), !PkT($T, pkT) ]
+  --[ AuthorizerSigned($U, $T, o, r, ~wstar) ]->
+    [ Out( aenc(
+             <o, r, $U, ~wstar, sign(h(<'DSbind', r, h(o)>), ~ltkU)>,
+             pkT )
+         )
+    ]
+
+rule Custodian_Attempt_Redeem:
+    [ Fresh($T, r), In(msg) ]
+  --[ RedeemAttempt($T, r) ]->
+    [ St_Redeeming($T, r, msg) ]
+
+rule Custodian_Redeem_Success:
+    [ !LtkT($T, ~ltkT),
+      St_Redeeming($T, r, aenc(<o, r, cidU, wstar, sig>, pk(~ltkT))),
+      !Registry(cidU, pkU)
+    ]
+  --[ Redeemed($T, cidU, o, r, wstar),
+      Eq( verify(sig, h(<'DSbind', r, h(o)>), pkU), true )
+    ]->
+    [ !RedeemedGrant($T, cidU, o, wstar, r), CounterZero(r) ]
+
+restriction Equality:
+  "All x y #i. Eq(x, y) @ i ==> x = y"
+
+/*
+ * Phase III -- budget N=2, ATOMIQUE. Deux règles, une par transition du
+ * compteur ; chacune indivisible, donc mutuelle exclusion par
+ * construction à chaque palier.
+ */
+rule Execute_Atomic_First:
+    [ !RedeemedGrant($T, cidU, o, wstar, r), CounterZero(r) ]
+  --[ Executed(r) ]->
+    [ CounterOne(r) ]
+
+rule Execute_Atomic_Second:
+    [ !RedeemedGrant($T, cidU, o, wstar, r), CounterOne(r) ]
+  --[ Executed(r) ]->
+    [ CounterExhausted(r) ]
+
+lemma executable_one_execution:
+  exists-trace
+  "Ex r #i. Executed(r) @ i"
+
+lemma executable_two_executions:
+  exists-trace
+  "Ex r #i #j. Executed(r) @ i & Executed(r) @ j & not (#i = #j)"
+
+/* Attendu : VÉRIFIÉ -- au plus deux exécutions par grant redemptée. */
+lemma UB_N2_atomic_at_most_two_executions:
+  all-traces
+  "All r #i #j #k.
+     Executed(r) @ i & Executed(r) @ j & Executed(r) @ k
+     ==> (#i = #j) | (#i = #k) | (#j = #k)"
+
+end

@@ -1,0 +1,2420 @@
+{
+    "graphs": [
+        {
+            "jgAbbrevs": [
+                {
+                    "jgaAbbrev": {
+                        "jgnConst": "AE1"
+                    },
+                    "jgaExpansion": {
+                        "jgnFunct": "aenc",
+                        "jgnParams": [
+                            {
+                                "jgnFunct": "pair",
+                                "jgnParams": [
+                                    {
+                                        "jgnConst": "o"
+                                    },
+                                    {
+                                        "jgnFunct": "pair",
+                                        "jgnParams": [
+                                            {
+                                                "jgnConst": "~r"
+                                            },
+                                            {
+                                                "jgnFunct": "pair",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "$U"
+                                                    },
+                                                    {
+                                                        "jgnFunct": "pair",
+                                                        "jgnParams": [
+                                                            {
+                                                                "jgnConst": "~wstar"
+                                                            },
+                                                            {
+                                                                "jgnFunct": "sign",
+                                                                "jgnParams": [
+                                                                    {
+                                                                        "jgnFunct": "h",
+                                                                        "jgnParams": [
+                                                                            {
+                                                                                "jgnFunct": "pair",
+                                                                                "jgnParams": [
+                                                                                    {
+                                                                                        "jgnConst": "'DSbind'"
+                                                                                    },
+                                                                                    {
+                                                                                        "jgnFunct": "pair",
+                                                                                        "jgnParams": [
+                                                                                            {
+                                                                                                "jgnConst": "~r"
+                                                                                            },
+                                                                                            {
+                                                                                                "jgnFunct": "h",
+                                                                                                "jgnParams": [
+                                                                                                    {
+                                                                                                        "jgnConst": "o"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "jgnShow": "h(o)"
+                                                                                            }
+                                                                                        ],
+                                                                                        "jgnShow": "pair(~r,h(o))"
+                                                                                    }
+                                                                                ],
+                                                                                "jgnShow": "pair('DSbind',pair(~r,h(o)))"
+                                                                            }
+                                                                        ],
+                                                                        "jgnShow": "h(pair('DSbind',pair(~r,h(o))))"
+                                                                    },
+                                                                    {
+                                                                        "jgnConst": "~ltkU"
+                                                                    }
+                                                                ],
+                                                                "jgnShow": "sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)"
+                                                            }
+                                                        ],
+                                                        "jgnShow": "pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))"
+                                                    }
+                                                ],
+                                                "jgnShow": "pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))"
+                                            }
+                                        ],
+                                        "jgnShow": "pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))"
+                                    }
+                                ],
+                                "jgnShow": "pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))))"
+                            },
+                            {
+                                "jgnFunct": "pk",
+                                "jgnParams": [
+                                    {
+                                        "jgnConst": "~ltkT"
+                                    }
+                                ],
+                                "jgnShow": "pk(~ltkT)"
+                            }
+                        ],
+                        "jgnShow": "aenc(pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))),pk(~ltkT))"
+                    },
+                    "jgaTerm": {
+                        "jgnFunct": "aenc",
+                        "jgnParams": [
+                            {
+                                "jgnFunct": "pair",
+                                "jgnParams": [
+                                    {
+                                        "jgnConst": "o"
+                                    },
+                                    {
+                                        "jgnFunct": "pair",
+                                        "jgnParams": [
+                                            {
+                                                "jgnConst": "~r"
+                                            },
+                                            {
+                                                "jgnFunct": "pair",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "$U"
+                                                    },
+                                                    {
+                                                        "jgnFunct": "pair",
+                                                        "jgnParams": [
+                                                            {
+                                                                "jgnConst": "~wstar"
+                                                            },
+                                                            {
+                                                                "jgnFunct": "sign",
+                                                                "jgnParams": [
+                                                                    {
+                                                                        "jgnFunct": "h",
+                                                                        "jgnParams": [
+                                                                            {
+                                                                                "jgnFunct": "pair",
+                                                                                "jgnParams": [
+                                                                                    {
+                                                                                        "jgnConst": "'DSbind'"
+                                                                                    },
+                                                                                    {
+                                                                                        "jgnFunct": "pair",
+                                                                                        "jgnParams": [
+                                                                                            {
+                                                                                                "jgnConst": "~r"
+                                                                                            },
+                                                                                            {
+                                                                                                "jgnFunct": "h",
+                                                                                                "jgnParams": [
+                                                                                                    {
+                                                                                                        "jgnConst": "o"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "jgnShow": "h(o)"
+                                                                                            }
+                                                                                        ],
+                                                                                        "jgnShow": "pair(~r,h(o))"
+                                                                                    }
+                                                                                ],
+                                                                                "jgnShow": "pair('DSbind',pair(~r,h(o)))"
+                                                                            }
+                                                                        ],
+                                                                        "jgnShow": "h(pair('DSbind',pair(~r,h(o))))"
+                                                                    },
+                                                                    {
+                                                                        "jgnConst": "~ltkU"
+                                                                    }
+                                                                ],
+                                                                "jgnShow": "sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)"
+                                                            }
+                                                        ],
+                                                        "jgnShow": "pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))"
+                                                    }
+                                                ],
+                                                "jgnShow": "pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))"
+                                            }
+                                        ],
+                                        "jgnShow": "pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))"
+                                    }
+                                ],
+                                "jgnShow": "pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))))"
+                            },
+                            {
+                                "jgnFunct": "pk",
+                                "jgnParams": [
+                                    {
+                                        "jgnConst": "~ltkT"
+                                    }
+                                ],
+                                "jgnShow": "pk(~ltkT)"
+                            }
+                        ],
+                        "jgnShow": "aenc(pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))),pk(~ltkT))"
+                    }
+                }
+            ],
+            "jgClusters": [],
+            "jgDirected": true,
+            "jgEdges": [
+                {
+                    "jgeRelation": "KFact",
+                    "jgeSource": "#vl:c0",
+                    "jgeTarget": "#vk:p0"
+                },
+                {
+                    "jgeRelation": "PersistentFact",
+                    "jgeSource": "#vr:c0",
+                    "jgeTarget": "#i:p0"
+                },
+                {
+                    "jgeRelation": "ProtoFact",
+                    "jgeSource": "#vr:c1",
+                    "jgeTarget": "#i:p1"
+                },
+                {
+                    "jgeRelation": "default",
+                    "jgeSource": "#vf.1:c0",
+                    "jgeTarget": "#vr.2:p1"
+                },
+                {
+                    "jgeRelation": "PersistentFact",
+                    "jgeSource": "#vr.1:c0",
+                    "jgeTarget": "#vr:p0"
+                },
+                {
+                    "jgeRelation": "PersistentFact",
+                    "jgeSource": "#vr.1:c1",
+                    "jgeTarget": "#vr.5:p3"
+                },
+                {
+                    "jgeRelation": "ProtoFact",
+                    "jgeSource": "#vr.2:c0",
+                    "jgeTarget": "#vr:p1"
+                },
+                {
+                    "jgeRelation": "PersistentFact",
+                    "jgeSource": "#vr.3:c0",
+                    "jgeTarget": "#vr.5:p0"
+                },
+                {
+                    "jgeRelation": "PersistentFact",
+                    "jgeSource": "#vr.3:c1",
+                    "jgeTarget": "#vr:p2"
+                },
+                {
+                    "jgeRelation": "default",
+                    "jgeSource": "#vf.4:c0",
+                    "jgeTarget": "#vr.4:p1"
+                },
+                {
+                    "jgeRelation": "KFact",
+                    "jgeSource": "#vr.4:c0",
+                    "jgeTarget": "#vk.1:p0"
+                },
+                {
+                    "jgeRelation": "ProtoFact",
+                    "jgeSource": "#vr.4:c1",
+                    "jgeTarget": "#vr.2:p0"
+                },
+                {
+                    "jgeRelation": "default",
+                    "jgeSource": "#vf.5:c0",
+                    "jgeTarget": "#vr.5:p1"
+                },
+                {
+                    "jgeRelation": "default",
+                    "jgeSource": "#vr.5:c0",
+                    "jgeTarget": "#vl:p0"
+                },
+                {
+                    "jgeRelation": "LessAtoms",
+                    "jgeSource": "#vk",
+                    "jgeTarget": "#vf.1"
+                },
+                {
+                    "jgeRelation": "LessAtoms",
+                    "jgeSource": "#vk.1",
+                    "jgeTarget": "#vf.5"
+                },
+                {
+                    "jgeRelation": "LessAtoms",
+                    "jgeSource": "#vk.2",
+                    "jgeTarget": "#vf.4"
+                },
+                {
+                    "jgeRelation": "LessAtoms",
+                    "jgeSource": "#vk.4",
+                    "jgeTarget": "#vf.5"
+                }
+            ],
+            "jgLabel": "trace_SUDP_Phase3_Budget_N1_Atomic_SL2-AS0-CL0-A1-C1-NB_executable-Custodian_Redeem_Success-Custodian_Redeem_Success-Authorizer_Sign-Custodian_Issue_Challenge",
+            "jgNodes": [
+                {
+                    "jgnId": "#i",
+                    "jgnLabel": "Execute_Atomic",
+                    "jgnMetadata": {
+                        "jgnActs": [
+                            {
+                                "jgnFactId": "action",
+                                "jgnFactMult": "",
+                                "jgnFactName": "Executed",
+                                "jgnFactShow": "Executed( ~r )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "~r"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnConcs": [
+                            {
+                                "jgnFactId": "#i:c0",
+                                "jgnFactMult": "",
+                                "jgnFactName": "CounterExhausted",
+                                "jgnFactShow": "CounterExhausted( ~r )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "~r"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnPrems": [
+                            {
+                                "jgnFactId": "#i:p0",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!RedeemedGrant",
+                                "jgnFactShow": "!RedeemedGrant( $T, $U, o, ~wstar, ~r )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$T"
+                                    },
+                                    {
+                                        "jgnConst": "$U"
+                                    },
+                                    {
+                                        "jgnConst": "o"
+                                    },
+                                    {
+                                        "jgnConst": "~wstar"
+                                    },
+                                    {
+                                        "jgnConst": "~r"
+                                    }
+                                ]
+                            },
+                            {
+                                "jgnFactId": "#i:p1",
+                                "jgnFactMult": "",
+                                "jgnFactName": "CounterZero",
+                                "jgnFactShow": "CounterZero( ~r )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "~r"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "jgnType": "isProtocolRule"
+                },
+                {
+                    "jgnId": "#vk",
+                    "jgnLabel": "Coerce",
+                    "jgnMetadata": {
+                        "jgnActs": [
+                            {
+                                "jgnFactId": "action",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!KU",
+                                "jgnFactShow": "!KU( aenc(<o, ~r, $U, ~wstar, sign(h(<'DSbind', ~r, h(o)>), ~ltkU) >, pk(~ltkT)))",
+                                "jgnFactTag": "KUFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "aenc",
+                                        "jgnParams": [
+                                            {
+                                                "jgnFunct": "pair",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "o"
+                                                    },
+                                                    {
+                                                        "jgnFunct": "pair",
+                                                        "jgnParams": [
+                                                            {
+                                                                "jgnConst": "~r"
+                                                            },
+                                                            {
+                                                                "jgnFunct": "pair",
+                                                                "jgnParams": [
+                                                                    {
+                                                                        "jgnConst": "$U"
+                                                                    },
+                                                                    {
+                                                                        "jgnFunct": "pair",
+                                                                        "jgnParams": [
+                                                                            {
+                                                                                "jgnConst": "~wstar"
+                                                                            },
+                                                                            {
+                                                                                "jgnFunct": "sign",
+                                                                                "jgnParams": [
+                                                                                    {
+                                                                                        "jgnFunct": "h",
+                                                                                        "jgnParams": [
+                                                                                            {
+                                                                                                "jgnFunct": "pair",
+                                                                                                "jgnParams": [
+                                                                                                    {
+                                                                                                        "jgnConst": "'DSbind'"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "jgnFunct": "pair",
+                                                                                                        "jgnParams": [
+                                                                                                            {
+                                                                                                                "jgnConst": "~r"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "jgnFunct": "h",
+                                                                                                                "jgnParams": [
+                                                                                                                    {
+                                                                                                                        "jgnConst": "o"
+                                                                                                                    }
+                                                                                                                ],
+                                                                                                                "jgnShow": "h(o)"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "jgnShow": "pair(~r,h(o))"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "jgnShow": "pair('DSbind',pair(~r,h(o)))"
+                                                                                            }
+                                                                                        ],
+                                                                                        "jgnShow": "h(pair('DSbind',pair(~r,h(o))))"
+                                                                                    },
+                                                                                    {
+                                                                                        "jgnConst": "~ltkU"
+                                                                                    }
+                                                                                ],
+                                                                                "jgnShow": "sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)"
+                                                                            }
+                                                                        ],
+                                                                        "jgnShow": "pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))"
+                                                                    }
+                                                                ],
+                                                                "jgnShow": "pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))"
+                                                            }
+                                                        ],
+                                                        "jgnShow": "pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))"
+                                                    }
+                                                ],
+                                                "jgnShow": "pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))))"
+                                            },
+                                            {
+                                                "jgnFunct": "pk",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "~ltkT"
+                                                    }
+                                                ],
+                                                "jgnShow": "pk(~ltkT)"
+                                            }
+                                        ],
+                                        "jgnShow": "aenc(pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))),pk(~ltkT))"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnConcs": [
+                            {
+                                "jgnFactId": "#vk:c0",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!KU",
+                                "jgnFactShow": "!KU( aenc(<o, ~r, $U, ~wstar, sign(h(<'DSbind', ~r, h(o)>), ~ltkU) >, pk(~ltkT)))",
+                                "jgnFactTag": "KUFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "aenc",
+                                        "jgnParams": [
+                                            {
+                                                "jgnFunct": "pair",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "o"
+                                                    },
+                                                    {
+                                                        "jgnFunct": "pair",
+                                                        "jgnParams": [
+                                                            {
+                                                                "jgnConst": "~r"
+                                                            },
+                                                            {
+                                                                "jgnFunct": "pair",
+                                                                "jgnParams": [
+                                                                    {
+                                                                        "jgnConst": "$U"
+                                                                    },
+                                                                    {
+                                                                        "jgnFunct": "pair",
+                                                                        "jgnParams": [
+                                                                            {
+                                                                                "jgnConst": "~wstar"
+                                                                            },
+                                                                            {
+                                                                                "jgnFunct": "sign",
+                                                                                "jgnParams": [
+                                                                                    {
+                                                                                        "jgnFunct": "h",
+                                                                                        "jgnParams": [
+                                                                                            {
+                                                                                                "jgnFunct": "pair",
+                                                                                                "jgnParams": [
+                                                                                                    {
+                                                                                                        "jgnConst": "'DSbind'"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "jgnFunct": "pair",
+                                                                                                        "jgnParams": [
+                                                                                                            {
+                                                                                                                "jgnConst": "~r"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "jgnFunct": "h",
+                                                                                                                "jgnParams": [
+                                                                                                                    {
+                                                                                                                        "jgnConst": "o"
+                                                                                                                    }
+                                                                                                                ],
+                                                                                                                "jgnShow": "h(o)"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "jgnShow": "pair(~r,h(o))"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "jgnShow": "pair('DSbind',pair(~r,h(o)))"
+                                                                                            }
+                                                                                        ],
+                                                                                        "jgnShow": "h(pair('DSbind',pair(~r,h(o))))"
+                                                                                    },
+                                                                                    {
+                                                                                        "jgnConst": "~ltkU"
+                                                                                    }
+                                                                                ],
+                                                                                "jgnShow": "sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)"
+                                                                            }
+                                                                        ],
+                                                                        "jgnShow": "pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))"
+                                                                    }
+                                                                ],
+                                                                "jgnShow": "pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))"
+                                                            }
+                                                        ],
+                                                        "jgnShow": "pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))"
+                                                    }
+                                                ],
+                                                "jgnShow": "pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))))"
+                                            },
+                                            {
+                                                "jgnFunct": "pk",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "~ltkT"
+                                                    }
+                                                ],
+                                                "jgnShow": "pk(~ltkT)"
+                                            }
+                                        ],
+                                        "jgnShow": "aenc(pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))),pk(~ltkT))"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnPrems": [
+                            {
+                                "jgnFactId": "#vk:p0",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!KD",
+                                "jgnFactShow": "!KD( aenc(<o, ~r, $U, ~wstar, sign(h(<'DSbind', ~r, h(o)>), ~ltkU) >, pk(~ltkT)))",
+                                "jgnFactTag": "KDFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "aenc",
+                                        "jgnParams": [
+                                            {
+                                                "jgnFunct": "pair",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "o"
+                                                    },
+                                                    {
+                                                        "jgnFunct": "pair",
+                                                        "jgnParams": [
+                                                            {
+                                                                "jgnConst": "~r"
+                                                            },
+                                                            {
+                                                                "jgnFunct": "pair",
+                                                                "jgnParams": [
+                                                                    {
+                                                                        "jgnConst": "$U"
+                                                                    },
+                                                                    {
+                                                                        "jgnFunct": "pair",
+                                                                        "jgnParams": [
+                                                                            {
+                                                                                "jgnConst": "~wstar"
+                                                                            },
+                                                                            {
+                                                                                "jgnFunct": "sign",
+                                                                                "jgnParams": [
+                                                                                    {
+                                                                                        "jgnFunct": "h",
+                                                                                        "jgnParams": [
+                                                                                            {
+                                                                                                "jgnFunct": "pair",
+                                                                                                "jgnParams": [
+                                                                                                    {
+                                                                                                        "jgnConst": "'DSbind'"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "jgnFunct": "pair",
+                                                                                                        "jgnParams": [
+                                                                                                            {
+                                                                                                                "jgnConst": "~r"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "jgnFunct": "h",
+                                                                                                                "jgnParams": [
+                                                                                                                    {
+                                                                                                                        "jgnConst": "o"
+                                                                                                                    }
+                                                                                                                ],
+                                                                                                                "jgnShow": "h(o)"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "jgnShow": "pair(~r,h(o))"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "jgnShow": "pair('DSbind',pair(~r,h(o)))"
+                                                                                            }
+                                                                                        ],
+                                                                                        "jgnShow": "h(pair('DSbind',pair(~r,h(o))))"
+                                                                                    },
+                                                                                    {
+                                                                                        "jgnConst": "~ltkU"
+                                                                                    }
+                                                                                ],
+                                                                                "jgnShow": "sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)"
+                                                                            }
+                                                                        ],
+                                                                        "jgnShow": "pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))"
+                                                                    }
+                                                                ],
+                                                                "jgnShow": "pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))"
+                                                            }
+                                                        ],
+                                                        "jgnShow": "pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))"
+                                                    }
+                                                ],
+                                                "jgnShow": "pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))))"
+                                            },
+                                            {
+                                                "jgnFunct": "pk",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "~ltkT"
+                                                    }
+                                                ],
+                                                "jgnShow": "pk(~ltkT)"
+                                            }
+                                        ],
+                                        "jgnShow": "aenc(pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))),pk(~ltkT))"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "jgnType": "isIntruderRule"
+                },
+                {
+                    "jgnId": "#vl",
+                    "jgnLabel": "Recv",
+                    "jgnMetadata": {
+                        "jgnActs": [],
+                        "jgnConcs": [
+                            {
+                                "jgnFactId": "#vl:c0",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!KD",
+                                "jgnFactShow": "!KD( aenc(<o, ~r, $U, ~wstar, sign(h(<'DSbind', ~r, h(o)>), ~ltkU) >, pk(~ltkT)))",
+                                "jgnFactTag": "KDFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "aenc",
+                                        "jgnParams": [
+                                            {
+                                                "jgnFunct": "pair",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "o"
+                                                    },
+                                                    {
+                                                        "jgnFunct": "pair",
+                                                        "jgnParams": [
+                                                            {
+                                                                "jgnConst": "~r"
+                                                            },
+                                                            {
+                                                                "jgnFunct": "pair",
+                                                                "jgnParams": [
+                                                                    {
+                                                                        "jgnConst": "$U"
+                                                                    },
+                                                                    {
+                                                                        "jgnFunct": "pair",
+                                                                        "jgnParams": [
+                                                                            {
+                                                                                "jgnConst": "~wstar"
+                                                                            },
+                                                                            {
+                                                                                "jgnFunct": "sign",
+                                                                                "jgnParams": [
+                                                                                    {
+                                                                                        "jgnFunct": "h",
+                                                                                        "jgnParams": [
+                                                                                            {
+                                                                                                "jgnFunct": "pair",
+                                                                                                "jgnParams": [
+                                                                                                    {
+                                                                                                        "jgnConst": "'DSbind'"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "jgnFunct": "pair",
+                                                                                                        "jgnParams": [
+                                                                                                            {
+                                                                                                                "jgnConst": "~r"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "jgnFunct": "h",
+                                                                                                                "jgnParams": [
+                                                                                                                    {
+                                                                                                                        "jgnConst": "o"
+                                                                                                                    }
+                                                                                                                ],
+                                                                                                                "jgnShow": "h(o)"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "jgnShow": "pair(~r,h(o))"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "jgnShow": "pair('DSbind',pair(~r,h(o)))"
+                                                                                            }
+                                                                                        ],
+                                                                                        "jgnShow": "h(pair('DSbind',pair(~r,h(o))))"
+                                                                                    },
+                                                                                    {
+                                                                                        "jgnConst": "~ltkU"
+                                                                                    }
+                                                                                ],
+                                                                                "jgnShow": "sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)"
+                                                                            }
+                                                                        ],
+                                                                        "jgnShow": "pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))"
+                                                                    }
+                                                                ],
+                                                                "jgnShow": "pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))"
+                                                            }
+                                                        ],
+                                                        "jgnShow": "pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))"
+                                                    }
+                                                ],
+                                                "jgnShow": "pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))))"
+                                            },
+                                            {
+                                                "jgnFunct": "pk",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "~ltkT"
+                                                    }
+                                                ],
+                                                "jgnShow": "pk(~ltkT)"
+                                            }
+                                        ],
+                                        "jgnShow": "aenc(pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))),pk(~ltkT))"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnPrems": [
+                            {
+                                "jgnFactId": "#vl:p0",
+                                "jgnFactMult": "",
+                                "jgnFactName": "Out",
+                                "jgnFactShow": "Out( aenc(<o, ~r, $U, ~wstar, sign(h(<'DSbind', ~r, h(o)>), ~ltkU) >, pk(~ltkT)))",
+                                "jgnFactTag": "OutFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "aenc",
+                                        "jgnParams": [
+                                            {
+                                                "jgnFunct": "pair",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "o"
+                                                    },
+                                                    {
+                                                        "jgnFunct": "pair",
+                                                        "jgnParams": [
+                                                            {
+                                                                "jgnConst": "~r"
+                                                            },
+                                                            {
+                                                                "jgnFunct": "pair",
+                                                                "jgnParams": [
+                                                                    {
+                                                                        "jgnConst": "$U"
+                                                                    },
+                                                                    {
+                                                                        "jgnFunct": "pair",
+                                                                        "jgnParams": [
+                                                                            {
+                                                                                "jgnConst": "~wstar"
+                                                                            },
+                                                                            {
+                                                                                "jgnFunct": "sign",
+                                                                                "jgnParams": [
+                                                                                    {
+                                                                                        "jgnFunct": "h",
+                                                                                        "jgnParams": [
+                                                                                            {
+                                                                                                "jgnFunct": "pair",
+                                                                                                "jgnParams": [
+                                                                                                    {
+                                                                                                        "jgnConst": "'DSbind'"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "jgnFunct": "pair",
+                                                                                                        "jgnParams": [
+                                                                                                            {
+                                                                                                                "jgnConst": "~r"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "jgnFunct": "h",
+                                                                                                                "jgnParams": [
+                                                                                                                    {
+                                                                                                                        "jgnConst": "o"
+                                                                                                                    }
+                                                                                                                ],
+                                                                                                                "jgnShow": "h(o)"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "jgnShow": "pair(~r,h(o))"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "jgnShow": "pair('DSbind',pair(~r,h(o)))"
+                                                                                            }
+                                                                                        ],
+                                                                                        "jgnShow": "h(pair('DSbind',pair(~r,h(o))))"
+                                                                                    },
+                                                                                    {
+                                                                                        "jgnConst": "~ltkU"
+                                                                                    }
+                                                                                ],
+                                                                                "jgnShow": "sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)"
+                                                                            }
+                                                                        ],
+                                                                        "jgnShow": "pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))"
+                                                                    }
+                                                                ],
+                                                                "jgnShow": "pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))"
+                                                            }
+                                                        ],
+                                                        "jgnShow": "pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))"
+                                                    }
+                                                ],
+                                                "jgnShow": "pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))))"
+                                            },
+                                            {
+                                                "jgnFunct": "pk",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "~ltkT"
+                                                    }
+                                                ],
+                                                "jgnShow": "pk(~ltkT)"
+                                            }
+                                        ],
+                                        "jgnShow": "aenc(pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))),pk(~ltkT))"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "jgnType": "isIntruderRule"
+                },
+                {
+                    "jgnId": "#vr",
+                    "jgnLabel": "Custodian_Redeem_Success",
+                    "jgnMetadata": {
+                        "jgnActs": [
+                            {
+                                "jgnFactId": "action",
+                                "jgnFactMult": "",
+                                "jgnFactName": "Redeemed",
+                                "jgnFactShow": "Redeemed( $T, $U, o, ~r, ~wstar )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$T"
+                                    },
+                                    {
+                                        "jgnConst": "$U"
+                                    },
+                                    {
+                                        "jgnConst": "o"
+                                    },
+                                    {
+                                        "jgnConst": "~r"
+                                    },
+                                    {
+                                        "jgnConst": "~wstar"
+                                    }
+                                ]
+                            },
+                            {
+                                "jgnFactId": "action",
+                                "jgnFactMult": "",
+                                "jgnFactName": "Eq",
+                                "jgnFactShow": "Eq( true, true )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "true",
+                                        "jgnParams": [],
+                                        "jgnShow": "true"
+                                    },
+                                    {
+                                        "jgnFunct": "true",
+                                        "jgnParams": [],
+                                        "jgnShow": "true"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnConcs": [
+                            {
+                                "jgnFactId": "#vr:c0",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!RedeemedGrant",
+                                "jgnFactShow": "!RedeemedGrant( $T, $U, o, ~wstar, ~r )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$T"
+                                    },
+                                    {
+                                        "jgnConst": "$U"
+                                    },
+                                    {
+                                        "jgnConst": "o"
+                                    },
+                                    {
+                                        "jgnConst": "~wstar"
+                                    },
+                                    {
+                                        "jgnConst": "~r"
+                                    }
+                                ]
+                            },
+                            {
+                                "jgnFactId": "#vr:c1",
+                                "jgnFactMult": "",
+                                "jgnFactName": "CounterZero",
+                                "jgnFactShow": "CounterZero( ~r )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "~r"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnPrems": [
+                            {
+                                "jgnFactId": "#vr:p0",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!LtkT",
+                                "jgnFactShow": "!LtkT( $T, ~ltkT )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$T"
+                                    },
+                                    {
+                                        "jgnConst": "~ltkT"
+                                    }
+                                ]
+                            },
+                            {
+                                "jgnFactId": "#vr:p1",
+                                "jgnFactMult": "",
+                                "jgnFactName": "St_Redeeming",
+                                "jgnFactShow": "St_Redeeming( $T, ~r, aenc(<o, ~r, $U, ~wstar, sign(h(<'DSbind', ~r, h(o)>), ~ltkU)>, pk(~ltkT)))",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$T"
+                                    },
+                                    {
+                                        "jgnConst": "~r"
+                                    },
+                                    {
+                                        "jgnFunct": "aenc",
+                                        "jgnParams": [
+                                            {
+                                                "jgnFunct": "pair",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "o"
+                                                    },
+                                                    {
+                                                        "jgnFunct": "pair",
+                                                        "jgnParams": [
+                                                            {
+                                                                "jgnConst": "~r"
+                                                            },
+                                                            {
+                                                                "jgnFunct": "pair",
+                                                                "jgnParams": [
+                                                                    {
+                                                                        "jgnConst": "$U"
+                                                                    },
+                                                                    {
+                                                                        "jgnFunct": "pair",
+                                                                        "jgnParams": [
+                                                                            {
+                                                                                "jgnConst": "~wstar"
+                                                                            },
+                                                                            {
+                                                                                "jgnFunct": "sign",
+                                                                                "jgnParams": [
+                                                                                    {
+                                                                                        "jgnFunct": "h",
+                                                                                        "jgnParams": [
+                                                                                            {
+                                                                                                "jgnFunct": "pair",
+                                                                                                "jgnParams": [
+                                                                                                    {
+                                                                                                        "jgnConst": "'DSbind'"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "jgnFunct": "pair",
+                                                                                                        "jgnParams": [
+                                                                                                            {
+                                                                                                                "jgnConst": "~r"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "jgnFunct": "h",
+                                                                                                                "jgnParams": [
+                                                                                                                    {
+                                                                                                                        "jgnConst": "o"
+                                                                                                                    }
+                                                                                                                ],
+                                                                                                                "jgnShow": "h(o)"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "jgnShow": "pair(~r,h(o))"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "jgnShow": "pair('DSbind',pair(~r,h(o)))"
+                                                                                            }
+                                                                                        ],
+                                                                                        "jgnShow": "h(pair('DSbind',pair(~r,h(o))))"
+                                                                                    },
+                                                                                    {
+                                                                                        "jgnConst": "~ltkU"
+                                                                                    }
+                                                                                ],
+                                                                                "jgnShow": "sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)"
+                                                                            }
+                                                                        ],
+                                                                        "jgnShow": "pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))"
+                                                                    }
+                                                                ],
+                                                                "jgnShow": "pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))"
+                                                            }
+                                                        ],
+                                                        "jgnShow": "pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))"
+                                                    }
+                                                ],
+                                                "jgnShow": "pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))))"
+                                            },
+                                            {
+                                                "jgnFunct": "pk",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "~ltkT"
+                                                    }
+                                                ],
+                                                "jgnShow": "pk(~ltkT)"
+                                            }
+                                        ],
+                                        "jgnShow": "aenc(pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))),pk(~ltkT))"
+                                    }
+                                ]
+                            },
+                            {
+                                "jgnFactId": "#vr:p2",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!Registry",
+                                "jgnFactShow": "!Registry( $U, pk(~ltkU) )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$U"
+                                    },
+                                    {
+                                        "jgnFunct": "pk",
+                                        "jgnParams": [
+                                            {
+                                                "jgnConst": "~ltkU"
+                                            }
+                                        ],
+                                        "jgnShow": "pk(~ltkU)"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "jgnType": "isProtocolRule"
+                },
+                {
+                    "jgnId": "#vf.1",
+                    "jgnLabel": "Send",
+                    "jgnMetadata": {
+                        "jgnActs": [
+                            {
+                                "jgnFactId": "action",
+                                "jgnFactMult": "",
+                                "jgnFactName": "K",
+                                "jgnFactShow": "K( aenc(<o, ~r, $U, ~wstar, sign(h(<'DSbind', ~r, h(o)>), ~ltkU)>, pk(~ltkT)))",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "aenc",
+                                        "jgnParams": [
+                                            {
+                                                "jgnFunct": "pair",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "o"
+                                                    },
+                                                    {
+                                                        "jgnFunct": "pair",
+                                                        "jgnParams": [
+                                                            {
+                                                                "jgnConst": "~r"
+                                                            },
+                                                            {
+                                                                "jgnFunct": "pair",
+                                                                "jgnParams": [
+                                                                    {
+                                                                        "jgnConst": "$U"
+                                                                    },
+                                                                    {
+                                                                        "jgnFunct": "pair",
+                                                                        "jgnParams": [
+                                                                            {
+                                                                                "jgnConst": "~wstar"
+                                                                            },
+                                                                            {
+                                                                                "jgnFunct": "sign",
+                                                                                "jgnParams": [
+                                                                                    {
+                                                                                        "jgnFunct": "h",
+                                                                                        "jgnParams": [
+                                                                                            {
+                                                                                                "jgnFunct": "pair",
+                                                                                                "jgnParams": [
+                                                                                                    {
+                                                                                                        "jgnConst": "'DSbind'"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "jgnFunct": "pair",
+                                                                                                        "jgnParams": [
+                                                                                                            {
+                                                                                                                "jgnConst": "~r"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "jgnFunct": "h",
+                                                                                                                "jgnParams": [
+                                                                                                                    {
+                                                                                                                        "jgnConst": "o"
+                                                                                                                    }
+                                                                                                                ],
+                                                                                                                "jgnShow": "h(o)"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "jgnShow": "pair(~r,h(o))"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "jgnShow": "pair('DSbind',pair(~r,h(o)))"
+                                                                                            }
+                                                                                        ],
+                                                                                        "jgnShow": "h(pair('DSbind',pair(~r,h(o))))"
+                                                                                    },
+                                                                                    {
+                                                                                        "jgnConst": "~ltkU"
+                                                                                    }
+                                                                                ],
+                                                                                "jgnShow": "sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)"
+                                                                            }
+                                                                        ],
+                                                                        "jgnShow": "pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))"
+                                                                    }
+                                                                ],
+                                                                "jgnShow": "pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))"
+                                                            }
+                                                        ],
+                                                        "jgnShow": "pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))"
+                                                    }
+                                                ],
+                                                "jgnShow": "pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))))"
+                                            },
+                                            {
+                                                "jgnFunct": "pk",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "~ltkT"
+                                                    }
+                                                ],
+                                                "jgnShow": "pk(~ltkT)"
+                                            }
+                                        ],
+                                        "jgnShow": "aenc(pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))),pk(~ltkT))"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnConcs": [
+                            {
+                                "jgnFactId": "#vf.1:c0",
+                                "jgnFactMult": "",
+                                "jgnFactName": "In",
+                                "jgnFactShow": "In( aenc(<o, ~r, $U, ~wstar, sign(h(<'DSbind', ~r, h(o)>), ~ltkU)>, pk(~ltkT)))",
+                                "jgnFactTag": "InFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "aenc",
+                                        "jgnParams": [
+                                            {
+                                                "jgnFunct": "pair",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "o"
+                                                    },
+                                                    {
+                                                        "jgnFunct": "pair",
+                                                        "jgnParams": [
+                                                            {
+                                                                "jgnConst": "~r"
+                                                            },
+                                                            {
+                                                                "jgnFunct": "pair",
+                                                                "jgnParams": [
+                                                                    {
+                                                                        "jgnConst": "$U"
+                                                                    },
+                                                                    {
+                                                                        "jgnFunct": "pair",
+                                                                        "jgnParams": [
+                                                                            {
+                                                                                "jgnConst": "~wstar"
+                                                                            },
+                                                                            {
+                                                                                "jgnFunct": "sign",
+                                                                                "jgnParams": [
+                                                                                    {
+                                                                                        "jgnFunct": "h",
+                                                                                        "jgnParams": [
+                                                                                            {
+                                                                                                "jgnFunct": "pair",
+                                                                                                "jgnParams": [
+                                                                                                    {
+                                                                                                        "jgnConst": "'DSbind'"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "jgnFunct": "pair",
+                                                                                                        "jgnParams": [
+                                                                                                            {
+                                                                                                                "jgnConst": "~r"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "jgnFunct": "h",
+                                                                                                                "jgnParams": [
+                                                                                                                    {
+                                                                                                                        "jgnConst": "o"
+                                                                                                                    }
+                                                                                                                ],
+                                                                                                                "jgnShow": "h(o)"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "jgnShow": "pair(~r,h(o))"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "jgnShow": "pair('DSbind',pair(~r,h(o)))"
+                                                                                            }
+                                                                                        ],
+                                                                                        "jgnShow": "h(pair('DSbind',pair(~r,h(o))))"
+                                                                                    },
+                                                                                    {
+                                                                                        "jgnConst": "~ltkU"
+                                                                                    }
+                                                                                ],
+                                                                                "jgnShow": "sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)"
+                                                                            }
+                                                                        ],
+                                                                        "jgnShow": "pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))"
+                                                                    }
+                                                                ],
+                                                                "jgnShow": "pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))"
+                                                            }
+                                                        ],
+                                                        "jgnShow": "pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))"
+                                                    }
+                                                ],
+                                                "jgnShow": "pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))))"
+                                            },
+                                            {
+                                                "jgnFunct": "pk",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "~ltkT"
+                                                    }
+                                                ],
+                                                "jgnShow": "pk(~ltkT)"
+                                            }
+                                        ],
+                                        "jgnShow": "aenc(pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))),pk(~ltkT))"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnPrems": [
+                            {
+                                "jgnFactId": "#vf.1:p0",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!KU",
+                                "jgnFactShow": "!KU( aenc(<o, ~r, $U, ~wstar, sign(h(<'DSbind', ~r, h(o)>), ~ltkU) >, pk(~ltkT)))",
+                                "jgnFactTag": "KUFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "aenc",
+                                        "jgnParams": [
+                                            {
+                                                "jgnFunct": "pair",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "o"
+                                                    },
+                                                    {
+                                                        "jgnFunct": "pair",
+                                                        "jgnParams": [
+                                                            {
+                                                                "jgnConst": "~r"
+                                                            },
+                                                            {
+                                                                "jgnFunct": "pair",
+                                                                "jgnParams": [
+                                                                    {
+                                                                        "jgnConst": "$U"
+                                                                    },
+                                                                    {
+                                                                        "jgnFunct": "pair",
+                                                                        "jgnParams": [
+                                                                            {
+                                                                                "jgnConst": "~wstar"
+                                                                            },
+                                                                            {
+                                                                                "jgnFunct": "sign",
+                                                                                "jgnParams": [
+                                                                                    {
+                                                                                        "jgnFunct": "h",
+                                                                                        "jgnParams": [
+                                                                                            {
+                                                                                                "jgnFunct": "pair",
+                                                                                                "jgnParams": [
+                                                                                                    {
+                                                                                                        "jgnConst": "'DSbind'"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "jgnFunct": "pair",
+                                                                                                        "jgnParams": [
+                                                                                                            {
+                                                                                                                "jgnConst": "~r"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "jgnFunct": "h",
+                                                                                                                "jgnParams": [
+                                                                                                                    {
+                                                                                                                        "jgnConst": "o"
+                                                                                                                    }
+                                                                                                                ],
+                                                                                                                "jgnShow": "h(o)"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "jgnShow": "pair(~r,h(o))"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "jgnShow": "pair('DSbind',pair(~r,h(o)))"
+                                                                                            }
+                                                                                        ],
+                                                                                        "jgnShow": "h(pair('DSbind',pair(~r,h(o))))"
+                                                                                    },
+                                                                                    {
+                                                                                        "jgnConst": "~ltkU"
+                                                                                    }
+                                                                                ],
+                                                                                "jgnShow": "sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)"
+                                                                            }
+                                                                        ],
+                                                                        "jgnShow": "pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))"
+                                                                    }
+                                                                ],
+                                                                "jgnShow": "pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))"
+                                                            }
+                                                        ],
+                                                        "jgnShow": "pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))"
+                                                    }
+                                                ],
+                                                "jgnShow": "pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))))"
+                                            },
+                                            {
+                                                "jgnFunct": "pk",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "~ltkT"
+                                                    }
+                                                ],
+                                                "jgnShow": "pk(~ltkT)"
+                                            }
+                                        ],
+                                        "jgnShow": "aenc(pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))),pk(~ltkT))"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "jgnType": "isIntruderRule"
+                },
+                {
+                    "jgnId": "#vk.1",
+                    "jgnLabel": "Coerce",
+                    "jgnMetadata": {
+                        "jgnActs": [
+                            {
+                                "jgnFactId": "action",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!KU",
+                                "jgnFactShow": "!KU( ~r )",
+                                "jgnFactTag": "KUFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "~r"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnConcs": [
+                            {
+                                "jgnFactId": "#vk.1:c0",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!KU",
+                                "jgnFactShow": "!KU( ~r )",
+                                "jgnFactTag": "KUFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "~r"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnPrems": [
+                            {
+                                "jgnFactId": "#vk.1:p0",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!KD",
+                                "jgnFactShow": "!KD( ~r )",
+                                "jgnFactTag": "KDFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "~r"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "jgnType": "isIntruderRule"
+                },
+                {
+                    "jgnId": "#vr.1",
+                    "jgnLabel": "Setup_Custodian",
+                    "jgnMetadata": {
+                        "jgnActs": [
+                            {
+                                "jgnFactId": "action",
+                                "jgnFactMult": "",
+                                "jgnFactName": "CustodianKeyGen",
+                                "jgnFactShow": "CustodianKeyGen( $T, ~ltkT )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$T"
+                                    },
+                                    {
+                                        "jgnConst": "~ltkT"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnConcs": [
+                            {
+                                "jgnFactId": "#vr.1:c0",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!LtkT",
+                                "jgnFactShow": "!LtkT( $T, ~ltkT )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$T"
+                                    },
+                                    {
+                                        "jgnConst": "~ltkT"
+                                    }
+                                ]
+                            },
+                            {
+                                "jgnFactId": "#vr.1:c1",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!PkT",
+                                "jgnFactShow": "!PkT( $T, pk(~ltkT) )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$T"
+                                    },
+                                    {
+                                        "jgnFunct": "pk",
+                                        "jgnParams": [
+                                            {
+                                                "jgnConst": "~ltkT"
+                                            }
+                                        ],
+                                        "jgnShow": "pk(~ltkT)"
+                                    }
+                                ]
+                            },
+                            {
+                                "jgnFactId": "#vr.1:c2",
+                                "jgnFactMult": "",
+                                "jgnFactName": "Out",
+                                "jgnFactShow": "Out( pk(~ltkT) )",
+                                "jgnFactTag": "OutFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "pk",
+                                        "jgnParams": [
+                                            {
+                                                "jgnConst": "~ltkT"
+                                            }
+                                        ],
+                                        "jgnShow": "pk(~ltkT)"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnPrems": [
+                            {
+                                "jgnFactId": "#vr.1:p0",
+                                "jgnFactMult": "",
+                                "jgnFactName": "Fr",
+                                "jgnFactShow": "Fr( ~ltkT )",
+                                "jgnFactTag": "FreshFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "~ltkT"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "jgnType": "isProtocolRule"
+                },
+                {
+                    "jgnId": "#vr.2",
+                    "jgnLabel": "Custodian_Attempt_Redeem",
+                    "jgnMetadata": {
+                        "jgnActs": [
+                            {
+                                "jgnFactId": "action",
+                                "jgnFactMult": "",
+                                "jgnFactName": "RedeemAttempt",
+                                "jgnFactShow": "RedeemAttempt( $T, ~r )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$T"
+                                    },
+                                    {
+                                        "jgnConst": "~r"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnConcs": [
+                            {
+                                "jgnFactId": "#vr.2:c0",
+                                "jgnFactMult": "",
+                                "jgnFactName": "St_Redeeming",
+                                "jgnFactShow": "St_Redeeming( $T, ~r, aenc(<o, ~r, $U, ~wstar, sign(h(<'DSbind', ~r, h(o)>), ~ltkU)>, pk(~ltkT)))",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$T"
+                                    },
+                                    {
+                                        "jgnConst": "~r"
+                                    },
+                                    {
+                                        "jgnFunct": "aenc",
+                                        "jgnParams": [
+                                            {
+                                                "jgnFunct": "pair",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "o"
+                                                    },
+                                                    {
+                                                        "jgnFunct": "pair",
+                                                        "jgnParams": [
+                                                            {
+                                                                "jgnConst": "~r"
+                                                            },
+                                                            {
+                                                                "jgnFunct": "pair",
+                                                                "jgnParams": [
+                                                                    {
+                                                                        "jgnConst": "$U"
+                                                                    },
+                                                                    {
+                                                                        "jgnFunct": "pair",
+                                                                        "jgnParams": [
+                                                                            {
+                                                                                "jgnConst": "~wstar"
+                                                                            },
+                                                                            {
+                                                                                "jgnFunct": "sign",
+                                                                                "jgnParams": [
+                                                                                    {
+                                                                                        "jgnFunct": "h",
+                                                                                        "jgnParams": [
+                                                                                            {
+                                                                                                "jgnFunct": "pair",
+                                                                                                "jgnParams": [
+                                                                                                    {
+                                                                                                        "jgnConst": "'DSbind'"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "jgnFunct": "pair",
+                                                                                                        "jgnParams": [
+                                                                                                            {
+                                                                                                                "jgnConst": "~r"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "jgnFunct": "h",
+                                                                                                                "jgnParams": [
+                                                                                                                    {
+                                                                                                                        "jgnConst": "o"
+                                                                                                                    }
+                                                                                                                ],
+                                                                                                                "jgnShow": "h(o)"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "jgnShow": "pair(~r,h(o))"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "jgnShow": "pair('DSbind',pair(~r,h(o)))"
+                                                                                            }
+                                                                                        ],
+                                                                                        "jgnShow": "h(pair('DSbind',pair(~r,h(o))))"
+                                                                                    },
+                                                                                    {
+                                                                                        "jgnConst": "~ltkU"
+                                                                                    }
+                                                                                ],
+                                                                                "jgnShow": "sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)"
+                                                                            }
+                                                                        ],
+                                                                        "jgnShow": "pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))"
+                                                                    }
+                                                                ],
+                                                                "jgnShow": "pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))"
+                                                            }
+                                                        ],
+                                                        "jgnShow": "pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))"
+                                                    }
+                                                ],
+                                                "jgnShow": "pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))))"
+                                            },
+                                            {
+                                                "jgnFunct": "pk",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "~ltkT"
+                                                    }
+                                                ],
+                                                "jgnShow": "pk(~ltkT)"
+                                            }
+                                        ],
+                                        "jgnShow": "aenc(pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))),pk(~ltkT))"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnPrems": [
+                            {
+                                "jgnFactId": "#vr.2:p0",
+                                "jgnFactMult": "",
+                                "jgnFactName": "Fresh",
+                                "jgnFactShow": "Fresh( $T, ~r )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$T"
+                                    },
+                                    {
+                                        "jgnConst": "~r"
+                                    }
+                                ]
+                            },
+                            {
+                                "jgnFactId": "#vr.2:p1",
+                                "jgnFactMult": "",
+                                "jgnFactName": "In",
+                                "jgnFactShow": "In( aenc(<o, ~r, $U, ~wstar, sign(h(<'DSbind', ~r, h(o)>), ~ltkU)>, pk(~ltkT)))",
+                                "jgnFactTag": "InFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "aenc",
+                                        "jgnParams": [
+                                            {
+                                                "jgnFunct": "pair",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "o"
+                                                    },
+                                                    {
+                                                        "jgnFunct": "pair",
+                                                        "jgnParams": [
+                                                            {
+                                                                "jgnConst": "~r"
+                                                            },
+                                                            {
+                                                                "jgnFunct": "pair",
+                                                                "jgnParams": [
+                                                                    {
+                                                                        "jgnConst": "$U"
+                                                                    },
+                                                                    {
+                                                                        "jgnFunct": "pair",
+                                                                        "jgnParams": [
+                                                                            {
+                                                                                "jgnConst": "~wstar"
+                                                                            },
+                                                                            {
+                                                                                "jgnFunct": "sign",
+                                                                                "jgnParams": [
+                                                                                    {
+                                                                                        "jgnFunct": "h",
+                                                                                        "jgnParams": [
+                                                                                            {
+                                                                                                "jgnFunct": "pair",
+                                                                                                "jgnParams": [
+                                                                                                    {
+                                                                                                        "jgnConst": "'DSbind'"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "jgnFunct": "pair",
+                                                                                                        "jgnParams": [
+                                                                                                            {
+                                                                                                                "jgnConst": "~r"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "jgnFunct": "h",
+                                                                                                                "jgnParams": [
+                                                                                                                    {
+                                                                                                                        "jgnConst": "o"
+                                                                                                                    }
+                                                                                                                ],
+                                                                                                                "jgnShow": "h(o)"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "jgnShow": "pair(~r,h(o))"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "jgnShow": "pair('DSbind',pair(~r,h(o)))"
+                                                                                            }
+                                                                                        ],
+                                                                                        "jgnShow": "h(pair('DSbind',pair(~r,h(o))))"
+                                                                                    },
+                                                                                    {
+                                                                                        "jgnConst": "~ltkU"
+                                                                                    }
+                                                                                ],
+                                                                                "jgnShow": "sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)"
+                                                                            }
+                                                                        ],
+                                                                        "jgnShow": "pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))"
+                                                                    }
+                                                                ],
+                                                                "jgnShow": "pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))"
+                                                            }
+                                                        ],
+                                                        "jgnShow": "pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))"
+                                                    }
+                                                ],
+                                                "jgnShow": "pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))))"
+                                            },
+                                            {
+                                                "jgnFunct": "pk",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "~ltkT"
+                                                    }
+                                                ],
+                                                "jgnShow": "pk(~ltkT)"
+                                            }
+                                        ],
+                                        "jgnShow": "aenc(pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))),pk(~ltkT))"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "jgnType": "isProtocolRule"
+                },
+                {
+                    "jgnId": "#vr.3",
+                    "jgnLabel": "Setup_Authorizer",
+                    "jgnMetadata": {
+                        "jgnActs": [
+                            {
+                                "jgnFactId": "action",
+                                "jgnFactMult": "",
+                                "jgnFactName": "AuthorizerKeyGen",
+                                "jgnFactShow": "AuthorizerKeyGen( $U, ~ltkU )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$U"
+                                    },
+                                    {
+                                        "jgnConst": "~ltkU"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnConcs": [
+                            {
+                                "jgnFactId": "#vr.3:c0",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!LtkU",
+                                "jgnFactShow": "!LtkU( $U, ~ltkU )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$U"
+                                    },
+                                    {
+                                        "jgnConst": "~ltkU"
+                                    }
+                                ]
+                            },
+                            {
+                                "jgnFactId": "#vr.3:c1",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!Registry",
+                                "jgnFactShow": "!Registry( $U, pk(~ltkU) )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$U"
+                                    },
+                                    {
+                                        "jgnFunct": "pk",
+                                        "jgnParams": [
+                                            {
+                                                "jgnConst": "~ltkU"
+                                            }
+                                        ],
+                                        "jgnShow": "pk(~ltkU)"
+                                    }
+                                ]
+                            },
+                            {
+                                "jgnFactId": "#vr.3:c2",
+                                "jgnFactMult": "",
+                                "jgnFactName": "Out",
+                                "jgnFactShow": "Out( pk(~ltkU) )",
+                                "jgnFactTag": "OutFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "pk",
+                                        "jgnParams": [
+                                            {
+                                                "jgnConst": "~ltkU"
+                                            }
+                                        ],
+                                        "jgnShow": "pk(~ltkU)"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnPrems": [
+                            {
+                                "jgnFactId": "#vr.3:p0",
+                                "jgnFactMult": "",
+                                "jgnFactName": "Fr",
+                                "jgnFactShow": "Fr( ~ltkU )",
+                                "jgnFactTag": "FreshFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "~ltkU"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "jgnType": "isProtocolRule"
+                },
+                {
+                    "jgnId": "#vf.4",
+                    "jgnLabel": "Send",
+                    "jgnMetadata": {
+                        "jgnActs": [
+                            {
+                                "jgnFactId": "action",
+                                "jgnFactMult": "",
+                                "jgnFactName": "K",
+                                "jgnFactShow": "K( o.1 )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "o.1"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnConcs": [
+                            {
+                                "jgnFactId": "#vf.4:c0",
+                                "jgnFactMult": "",
+                                "jgnFactName": "In",
+                                "jgnFactShow": "In( o.1 )",
+                                "jgnFactTag": "InFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "o.1"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnPrems": [
+                            {
+                                "jgnFactId": "#vf.4:p0",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!KU",
+                                "jgnFactShow": "!KU( o.1 )",
+                                "jgnFactTag": "KUFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "o.1"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "jgnType": "isIntruderRule"
+                },
+                {
+                    "jgnId": "#vr.4",
+                    "jgnLabel": "Custodian_Issue_Challenge",
+                    "jgnMetadata": {
+                        "jgnActs": [
+                            {
+                                "jgnFactId": "action",
+                                "jgnFactMult": "",
+                                "jgnFactName": "ChallengeIssued",
+                                "jgnFactShow": "ChallengeIssued( $T, ~r, o.1 )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$T"
+                                    },
+                                    {
+                                        "jgnConst": "~r"
+                                    },
+                                    {
+                                        "jgnConst": "o.1"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnConcs": [
+                            {
+                                "jgnFactId": "#vr.4:c0",
+                                "jgnFactMult": "",
+                                "jgnFactName": "Out",
+                                "jgnFactShow": "Out( <o.1, ~r> )",
+                                "jgnFactTag": "OutFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "pair",
+                                        "jgnParams": [
+                                            {
+                                                "jgnConst": "o.1"
+                                            },
+                                            {
+                                                "jgnConst": "~r"
+                                            }
+                                        ],
+                                        "jgnShow": "pair(o.1,~r)"
+                                    }
+                                ]
+                            },
+                            {
+                                "jgnFactId": "#vr.4:c1",
+                                "jgnFactMult": "",
+                                "jgnFactName": "Fresh",
+                                "jgnFactShow": "Fresh( $T, ~r )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$T"
+                                    },
+                                    {
+                                        "jgnConst": "~r"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnPrems": [
+                            {
+                                "jgnFactId": "#vr.4:p0",
+                                "jgnFactMult": "",
+                                "jgnFactName": "Fr",
+                                "jgnFactShow": "Fr( ~r )",
+                                "jgnFactTag": "FreshFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "~r"
+                                    }
+                                ]
+                            },
+                            {
+                                "jgnFactId": "#vr.4:p1",
+                                "jgnFactMult": "",
+                                "jgnFactName": "In",
+                                "jgnFactShow": "In( o.1 )",
+                                "jgnFactTag": "InFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "o.1"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "jgnType": "isProtocolRule"
+                },
+                {
+                    "jgnId": "#vf.5",
+                    "jgnLabel": "Send",
+                    "jgnMetadata": {
+                        "jgnActs": [
+                            {
+                                "jgnFactId": "action",
+                                "jgnFactMult": "",
+                                "jgnFactName": "K",
+                                "jgnFactShow": "K( <o, ~r> )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "pair",
+                                        "jgnParams": [
+                                            {
+                                                "jgnConst": "o"
+                                            },
+                                            {
+                                                "jgnConst": "~r"
+                                            }
+                                        ],
+                                        "jgnShow": "pair(o,~r)"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnConcs": [
+                            {
+                                "jgnFactId": "#vf.5:c0",
+                                "jgnFactMult": "",
+                                "jgnFactName": "In",
+                                "jgnFactShow": "In( <o, ~r> )",
+                                "jgnFactTag": "InFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "pair",
+                                        "jgnParams": [
+                                            {
+                                                "jgnConst": "o"
+                                            },
+                                            {
+                                                "jgnConst": "~r"
+                                            }
+                                        ],
+                                        "jgnShow": "pair(o,~r)"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnPrems": [
+                            {
+                                "jgnFactId": "#vf.5:p0",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!KU",
+                                "jgnFactShow": "!KU( <o, ~r> )",
+                                "jgnFactTag": "KUFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "pair",
+                                        "jgnParams": [
+                                            {
+                                                "jgnConst": "o"
+                                            },
+                                            {
+                                                "jgnConst": "~r"
+                                            }
+                                        ],
+                                        "jgnShow": "pair(o,~r)"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "jgnType": "isIntruderRule"
+                },
+                {
+                    "jgnId": "#vr.5",
+                    "jgnLabel": "Authorizer_Sign",
+                    "jgnMetadata": {
+                        "jgnActs": [
+                            {
+                                "jgnFactId": "action",
+                                "jgnFactMult": "",
+                                "jgnFactName": "AuthorizerSigned",
+                                "jgnFactShow": "AuthorizerSigned( $U, $T, o, ~r, ~wstar )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$U"
+                                    },
+                                    {
+                                        "jgnConst": "$T"
+                                    },
+                                    {
+                                        "jgnConst": "o"
+                                    },
+                                    {
+                                        "jgnConst": "~r"
+                                    },
+                                    {
+                                        "jgnConst": "~wstar"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnConcs": [
+                            {
+                                "jgnFactId": "#vr.5:c0",
+                                "jgnFactMult": "",
+                                "jgnFactName": "Out",
+                                "jgnFactShow": "Out( aenc(<o, ~r, $U, ~wstar, sign(h(<'DSbind', ~r, h(o)>), ~ltkU) >, pk(~ltkT)))",
+                                "jgnFactTag": "OutFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "aenc",
+                                        "jgnParams": [
+                                            {
+                                                "jgnFunct": "pair",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "o"
+                                                    },
+                                                    {
+                                                        "jgnFunct": "pair",
+                                                        "jgnParams": [
+                                                            {
+                                                                "jgnConst": "~r"
+                                                            },
+                                                            {
+                                                                "jgnFunct": "pair",
+                                                                "jgnParams": [
+                                                                    {
+                                                                        "jgnConst": "$U"
+                                                                    },
+                                                                    {
+                                                                        "jgnFunct": "pair",
+                                                                        "jgnParams": [
+                                                                            {
+                                                                                "jgnConst": "~wstar"
+                                                                            },
+                                                                            {
+                                                                                "jgnFunct": "sign",
+                                                                                "jgnParams": [
+                                                                                    {
+                                                                                        "jgnFunct": "h",
+                                                                                        "jgnParams": [
+                                                                                            {
+                                                                                                "jgnFunct": "pair",
+                                                                                                "jgnParams": [
+                                                                                                    {
+                                                                                                        "jgnConst": "'DSbind'"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "jgnFunct": "pair",
+                                                                                                        "jgnParams": [
+                                                                                                            {
+                                                                                                                "jgnConst": "~r"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "jgnFunct": "h",
+                                                                                                                "jgnParams": [
+                                                                                                                    {
+                                                                                                                        "jgnConst": "o"
+                                                                                                                    }
+                                                                                                                ],
+                                                                                                                "jgnShow": "h(o)"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "jgnShow": "pair(~r,h(o))"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "jgnShow": "pair('DSbind',pair(~r,h(o)))"
+                                                                                            }
+                                                                                        ],
+                                                                                        "jgnShow": "h(pair('DSbind',pair(~r,h(o))))"
+                                                                                    },
+                                                                                    {
+                                                                                        "jgnConst": "~ltkU"
+                                                                                    }
+                                                                                ],
+                                                                                "jgnShow": "sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)"
+                                                                            }
+                                                                        ],
+                                                                        "jgnShow": "pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))"
+                                                                    }
+                                                                ],
+                                                                "jgnShow": "pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))"
+                                                            }
+                                                        ],
+                                                        "jgnShow": "pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))"
+                                                    }
+                                                ],
+                                                "jgnShow": "pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU)))))"
+                                            },
+                                            {
+                                                "jgnFunct": "pk",
+                                                "jgnParams": [
+                                                    {
+                                                        "jgnConst": "~ltkT"
+                                                    }
+                                                ],
+                                                "jgnShow": "pk(~ltkT)"
+                                            }
+                                        ],
+                                        "jgnShow": "aenc(pair(o,pair(~r,pair($U,pair(~wstar,sign(h(pair('DSbind',pair(~r,h(o)))),~ltkU))))),pk(~ltkT))"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnPrems": [
+                            {
+                                "jgnFactId": "#vr.5:p0",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!LtkU",
+                                "jgnFactShow": "!LtkU( $U, ~ltkU )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$U"
+                                    },
+                                    {
+                                        "jgnConst": "~ltkU"
+                                    }
+                                ]
+                            },
+                            {
+                                "jgnFactId": "#vr.5:p1",
+                                "jgnFactMult": "",
+                                "jgnFactName": "In",
+                                "jgnFactShow": "In( <o, ~r> )",
+                                "jgnFactTag": "InFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnFunct": "pair",
+                                        "jgnParams": [
+                                            {
+                                                "jgnConst": "o"
+                                            },
+                                            {
+                                                "jgnConst": "~r"
+                                            }
+                                        ],
+                                        "jgnShow": "pair(o,~r)"
+                                    }
+                                ]
+                            },
+                            {
+                                "jgnFactId": "#vr.5:p2",
+                                "jgnFactMult": "",
+                                "jgnFactName": "Fr",
+                                "jgnFactShow": "Fr( ~wstar )",
+                                "jgnFactTag": "FreshFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "~wstar"
+                                    }
+                                ]
+                            },
+                            {
+                                "jgnFactId": "#vr.5:p3",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!PkT",
+                                "jgnFactShow": "!PkT( $T, pk(~ltkT) )",
+                                "jgnFactTag": "ProtoFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "$T"
+                                    },
+                                    {
+                                        "jgnFunct": "pk",
+                                        "jgnParams": [
+                                            {
+                                                "jgnConst": "~ltkT"
+                                            }
+                                        ],
+                                        "jgnShow": "pk(~ltkT)"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "jgnType": "isProtocolRule"
+                },
+                {
+                    "jgnId": "#vk.2",
+                    "jgnLabel": "!KU( o.1 )",
+                    "jgnMetadata": {
+                        "jgnActs": [
+                            {
+                                "jgnFactId": "action",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!KU",
+                                "jgnFactShow": "!KU( o.1 )",
+                                "jgnFactTag": "KUFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "o.1"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnConcs": [],
+                        "jgnPrems": []
+                    },
+                    "jgnType": "unsolvedActionAtom"
+                },
+                {
+                    "jgnId": "#vk.4",
+                    "jgnLabel": "!KU( o )",
+                    "jgnMetadata": {
+                        "jgnActs": [
+                            {
+                                "jgnFactId": "action",
+                                "jgnFactMult": "!",
+                                "jgnFactName": "!KU",
+                                "jgnFactShow": "!KU( o )",
+                                "jgnFactTag": "KUFact",
+                                "jgnFactTerms": [
+                                    {
+                                        "jgnConst": "o"
+                                    }
+                                ]
+                            }
+                        ],
+                        "jgnConcs": [],
+                        "jgnPrems": []
+                    },
+                    "jgnType": "unsolvedActionAtom"
+                }
+            ],
+            "jgType": "Tamarin prover constraint system"
+        }
+    ]
+}

@@ -1,0 +1,87 @@
+/*
+ * SUDP — Phase III, budget d'exécution N=1, variante ATOMIQUE
+ * ================================================================
+ * Voir README.md de ce dossier pour le cadrage complet (garde-fous du
+ * 03/10/2026) et ../phase2-grant-authorization/sudp_phase2.spthy pour le
+ * détail des règles de Phase I/II reprises à l'identique ci-dessous.
+ *
+ * Isolé dans son propre fichier (et non dans le même théorie que la
+ * variante non atomique) : les deux variantes ne doivent JAMAIS coexister
+ * dans une seule théorie Tamarin, sous peine de laisser le solveur
+ * utiliser les règles "non atomiques" pour contredire un lemme sur la
+ * variante "atomique" (erreur commise puis corrigée lors de la
+ * construction de ce modèle -- voir reproducibility/logs/).
+ *
+ * Execute_Atomic lit-et-met-à-jour le compteur en UNE seule règle MSR,
+ * donc indivisible par construction : aucune exécution concurrente ne
+ * peut observer un état intermédiaire du compteur.
+ */
+
+theory SUDP_Phase3_Budget_N1_Atomic
+begin
+
+builtins: hashing, signing, asymmetric-encryption
+
+rule Setup_Authorizer:
+    [ Fr(~ltkU) ]
+  --[ AuthorizerKeyGen($U, ~ltkU) ]->
+    [ !LtkU($U, ~ltkU), !Registry($U, pk(~ltkU)), Out(pk(~ltkU)) ]
+
+rule Setup_Custodian:
+    [ Fr(~ltkT) ]
+  --[ CustodianKeyGen($T, ~ltkT) ]->
+    [ !LtkT($T, ~ltkT), !PkT($T, pk(~ltkT)), Out(pk(~ltkT)) ]
+
+rule Custodian_Issue_Challenge:
+    [ Fr(~r), In(o) ]
+  --[ ChallengeIssued($T, ~r, o) ]->
+    [ Out(<o, ~r>), Fresh($T, ~r) ]
+
+rule Authorizer_Sign:
+    [ !LtkU($U, ~ltkU), In(<o, r>), Fr(~wstar), !PkT($T, pkT) ]
+  --[ AuthorizerSigned($U, $T, o, r, ~wstar) ]->
+    [ Out( aenc(
+             <o, r, $U, ~wstar, sign(h(<'DSbind', r, h(o)>), ~ltkU)>,
+             pkT )
+         )
+    ]
+
+rule Custodian_Attempt_Redeem:
+    [ Fresh($T, r), In(msg) ]
+  --[ RedeemAttempt($T, r) ]->
+    [ St_Redeeming($T, r, msg) ]
+
+rule Custodian_Redeem_Success:
+    [ !LtkT($T, ~ltkT),
+      St_Redeeming($T, r, aenc(<o, r, cidU, wstar, sig>, pk(~ltkT))),
+      !Registry(cidU, pkU)
+    ]
+  --[ Redeemed($T, cidU, o, r, wstar),
+      Eq( verify(sig, h(<'DSbind', r, h(o)>), pkU), true )
+    ]->
+    [ !RedeemedGrant($T, cidU, o, wstar, r), CounterZero(r) ]
+
+restriction Equality:
+  "All x y #i. Eq(x, y) @ i ==> x = y"
+
+/*
+ * Phase III -- admission sous budget N=1, ATOMIQUE : Execute_Atomic
+ * consomme CounterZero(r) (fait linéaire, unique par grant redemptée) et
+ * produit CounterExhausted(r), terminal. Un seul `Executed(r)` est
+ * atteignable par r : la mutuelle exclusion est garantie par construction
+ * (une règle MSR est indivisible), pas par une politique applicative.
+ */
+rule Execute_Atomic:
+    [ !RedeemedGrant($T, cidU, o, wstar, r), CounterZero(r) ]
+  --[ Executed(r) ]->
+    [ CounterExhausted(r) ]
+
+lemma executable:
+  exists-trace
+  "Ex r #i. Executed(r) @ i"
+
+lemma UB_N1_atomic_at_most_one_execution:
+  all-traces
+  "All r #i #j. Executed(r) @ i & Executed(r) @ j ==> #i = #j"
+
+end

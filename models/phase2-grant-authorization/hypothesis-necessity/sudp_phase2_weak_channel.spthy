@@ -1,0 +1,92 @@
+/*
+ * SUDP — Phase II, HYPOTHESIS-WEAKENING VARIANT: non-confidential II.2 channel
+ * ==============================================================================
+ *
+ * NOT a model of SUDP as specified. This is a deliberately weakened variant
+ * of ../sudp_phase2.spthy, produced per methodology step 3 ("analyser la
+ * necessite des hypotheses" — Jackson et al.-style, one hypothesis at a time):
+ * the ONLY change from the base model is that Authorizer_Sign now puts the
+ * grant on the public network in the clear instead of encrypting it under
+ * the custodian's public key (aenc removed).
+ *
+ * PURPOSE: show that the confidentiality of the II.2 channel (an explicit
+ * deployment assumption of SUDP, not a property the paper claims to get for
+ * free) is load-bearing for CRC. Finding an attack here is NOT a flaw in
+ * SUDP as specified with all its hypotheses in force — it is evidence that
+ * this specific hypothesis is necessary, exactly per methodology constraint 4
+ * ("gestion des budgets... relevent de choix de deploiement documentes").
+ *
+ * See ../sudp_phase2.spthy for the full commentary on scope and abstractions;
+ * only the diff is annotated below.
+ */
+
+theory SUDP_PhaseII_WeakChannel
+begin
+
+builtins: hashing, signing, asymmetric-encryption
+
+rule Setup_Authorizer:
+    [ Fr(~ltkU) ]
+  --[ AuthorizerKeyGen($U, ~ltkU) ]->
+    [ !LtkU($U, ~ltkU), !Registry($U, pk(~ltkU)), Out(pk(~ltkU)) ]
+
+rule Setup_Custodian:
+    [ Fr(~ltkT) ]
+  --[ CustodianKeyGen($T, ~ltkT) ]->
+    [ !LtkT($T, ~ltkT), !PkT($T, pk(~ltkT)), Out(pk(~ltkT)) ]
+
+rule Custodian_Issue_Challenge:
+    [ Fr(~r), In(o) ]
+  --[ ChallengeIssued($T, ~r, o) ]->
+    [ Out(<o, ~r>), Fresh($T, ~r) ]
+
+/*
+ * DIFF vs. the base model: the grant is sent as a plain tuple on the public
+ * channel. wstar and the signature are now directly observable to the
+ * Dolev-Yao adversary. This is the ONLY change in this file.
+ */
+rule Authorizer_Sign_WEAK:
+    [ !LtkU($U, ~ltkU), In(<o, r>), Fr(~wstar), !PkT($T, pkT) ]
+  --[ AuthorizerSigned($U, $T, o, r, ~wstar) ]->
+    [ Out( <o, r, $U, ~wstar, sign(h(<'DSbind', r, h(o)>), ~ltkU)> ) ]
+
+rule Custodian_Attempt_Redeem:
+    [ Fresh($T, r), In(msg) ]
+  --[ RedeemAttempt($T, r) ]->
+    [ St_Redeeming($T, r, msg) ]
+
+rule Custodian_Redeem_Success:
+    [ !LtkT($T, ~ltkT),
+      St_Redeeming($T, r, <o, r, cidU, wstar, sig>),
+      !Registry(cidU, pkU)
+    ]
+  --[ Redeemed($T, cidU, o, r, wstar),
+      Eq( verify(sig, h(<'DSbind', r, h(o)>), pkU), true )
+    ]->
+    [ !RedeemedGrant($T, cidU, o, wstar) ]
+
+restriction Equality:
+  "All x y #i. Eq(x, y) @ i ==> x = y"
+
+lemma executable:
+  exists-trace
+  "Ex T cidU o r wstar #i. Redeemed(T, cidU, o, r, wstar) @ i"
+
+/* Expected: FALSIFIED. Removing channel confidentiality alone is already
+   sufficient for the adversary to learn wstar -- it is sent in the clear. */
+lemma CRC_wrapping_key_secrecy:
+  all-traces
+  "All U T o r wstar #i.
+     AuthorizerSigned(U, T, o, r, wstar) @ i
+     ==> not (Ex #j. K(wstar) @ j)"
+
+/* Expected: still verified. AV/OB depend on signature unforgeability, not
+   on channel confidentiality -- this isolates which properties the removed
+   hypothesis actually protects. */
+lemma AV_authorization_verifiability:
+  all-traces
+  "All T cidU o r wstar #i.
+     Redeemed(T, cidU, o, r, wstar) @ i
+     ==> ( Ex T2 #j. AuthorizerSigned(cidU, T2, o, r, wstar) @ j & #j < #i )"
+
+end

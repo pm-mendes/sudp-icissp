@@ -1,0 +1,244 @@
+/*
+ * SUDP — Phase II (Authorization Grant), symbolic model
+ * =======================================================
+ *
+ * Source protocol : Yu, X. et al., "SUDP: Secret-Use Delegation Protocol for
+ *   Agentic Systems", v3, 22 May 2026, arXiv:2604.24920.
+ * Reference implementation pinned at commit e953b67129c5edf08b8c5af540c7ada2a8294088
+ *   ("release: v0.3.0 -- execution-budget multiplicity"), github.com/xhyumiracle/sudp.
+ * See docs/traceability.md for the property <-> hypothesis <-> model mapping,
+ * and docs/sources.md for exact version pinning.
+ *
+ * SCOPE OF THIS FILE
+ * -------------------
+ * Phase II only (Grant Authorization: request, authorizer signing, custodian
+ * redemption). Phase I (Setup) is collapsed into two key-generation rules;
+ * Phase III (Consumption -- Use/Export/lifecycle dispatch, execution budget
+ * admission) is *not* modeled here. It is the next milestone (methodology
+ * step 2: budgets/concurrency vs. revocation), building on the RedeemedGrant
+ * fact this file already produces as its hand-off point.
+ *
+ * WHAT THIS FILE DOES AND DOES NOT CLAIM
+ * ----------------------------------------
+ * - This is a proof in the symbolic (Dolev-Yao) model, not a mechanization of
+ *   SUDP's own computational security proof (paper Sec. 9.3-9.4). See
+ *   docs/traceability.md, "Abstraction" column, for the gap between the two.
+ * - Guarantees below hold under the EXPLICIT hypotheses encoded in the rules
+ *   (idealized EUF-CMA signatures, an honest custodian/authorizer key pair,
+ *   a confidential+authentic II.2 channel modeled via aenc to the custodian's
+ *   public key). They are conditioned guarantees, not absolute ones -- see
+ *   methodology constraint 2 in the project brief.
+ * - The Requester (RR) is *not* given a distinguished honest role: per the
+ *   paper's baseline adversary model (Sec. 3.2, A^R + A^net), RR is merged
+ *   with the Dolev-Yao network attacker. This is the worst case for RR and is
+ *   the correct modeling choice for CRC (Confidentiality under Requester
+ *   Compromise): an RR that is fully attacker-controlled subsumes any weaker
+ *   RR-compromise scenario.
+ * - The operation `o` is modeled as an opaque term, not decomposed into its
+ *   (act, bind, valid) fields (see operation.rs in the reference repo). Phase
+ *   II's binding logic (beta = H(DS_bind || r || H(o))) only needs `o` to be
+ *   the *same* term on both sides; internal structure only matters once
+ *   Phase III dispatch and multiplicity/budget are modeled (next milestone).
+ * - Credential ids are identified with the authorizer's agent name ($U).
+ *   The reference implementation allows several credentials per authorizer
+ *   (cid_c); collapsing this is a simplification tracked in docs/traceability.md.
+ * - Signatures are the Tamarin `signing` builtin: idealized, unforgeable
+ *   EUF-CMA abstraction. Per Jackson et al. (CCS'19, "Seemingly Similar Uses
+ *   of Cryptography Are Not the Same"), this abstraction elides the
+ *   authenticator-specific channel-binding context (rpId/origin) that the
+ *   real WebAuthn-style Authenticator::verify_assertion binds alongside beta;
+ *   a cross-origin confusion attack is out of scope for this idealization and
+ *   flagged as a residual limitation in docs/traceability.md.
+ */
+
+theory SUDP_PhaseII
+begin
+
+builtins: hashing, signing, asymmetric-encryption
+
+/*
+ * ---------------------------------------------------------------------
+ * Phase I (collapsed): key generation for the Authorizer (U) and the
+ * Custodian (T). Both long-term keys are published (pk sent on the public
+ * channel) as in any standard Dolev-Yao PKI setup; the corresponding secret
+ * keys stay in !LtkU / !LtkT and are never leaked by any rule below (no
+ * compromise rule is included in this first milestone -- see
+ * docs/traceability.md, "hypothesis-weakening" column, for how a later
+ * iteration adds an explicit Reveal rule for methodology step 3).
+ * ---------------------------------------------------------------------
+ */
+
+rule Setup_Authorizer:
+    [ Fr(~ltkU) ]
+  --[ AuthorizerKeyGen($U, ~ltkU) ]->
+    [ !LtkU($U, ~ltkU), !Registry($U, pk(~ltkU)), Out(pk(~ltkU)) ]
+
+rule Setup_Custodian:
+    [ Fr(~ltkT) ]
+  --[ CustodianKeyGen($T, ~ltkT) ]->
+    [ !LtkT($T, ~ltkT), !PkT($T, pk(~ltkT)), Out(pk(~ltkT)) ]
+
+/*
+ * ---------------------------------------------------------------------
+ * Phase II.1 -- Grant Request.
+ * `o` arrives via the public network: under the baseline threat model
+ * (A^R, A^net) the Requester is the attacker, so "RR proposes o to T" is
+ * exactly "T reads o from the public channel". T mints a fresh challenge
+ * ~r and forwards (o, r) toward the Authorizer.
+ * ---------------------------------------------------------------------
+ */
+
+rule Custodian_Issue_Challenge:
+    [ Fr(~r), In(o) ]
+  --[ ChallengeIssued($T, ~r, o) ]->
+    [ Out(<o, ~r>), Fresh($T, ~r) ]
+
+/*
+ * ---------------------------------------------------------------------
+ * Phase II.2 -- Authorizer Signing.
+ * U reviews (o, r), picks a fresh wrapping key material ~wstar (abstracting
+ * the credential-PRF derivation W* <- PRF(c*) of the reference
+ * implementation: modeling it as fresh is sound for secrecy/binding
+ * properties and is documented as an abstraction in docs/traceability.md),
+ * signs beta = H(DS_bind || r || H(o)), and ships the grant to T over a
+ * channel modeled as confidential+authentic via encryption under T's public
+ * key (aenc). This makes the "confidential II.2 channel" hypothesis
+ * syntactically explicit and removable: methodology step 3 (hypothesis
+ * necessity) replaces this rule's `Out(aenc(...))` with a plain `Out(<...>)`
+ * in a separate model variant to search for the resulting attack.
+ * ---------------------------------------------------------------------
+ */
+
+rule Authorizer_Sign:
+    [ !LtkU($U, ~ltkU), In(<o, r>), Fr(~wstar), !PkT($T, pkT) ]
+  --[ AuthorizerSigned($U, $T, o, r, ~wstar) ]->
+    [ Out( aenc(
+             <o, r, $U, ~wstar, sign(h(<'DSbind', r, h(o)>), ~ltkU)>,
+             pkT )
+         )
+    ]
+
+/*
+ * ---------------------------------------------------------------------
+ * Phase II.3 -- Grant Redemption, split into two rules to be faithful to
+ * the reference implementation's fail-closed discipline:
+ *   "r is consumed regardless of which step fails" (custodian/rust/src/
+ *   phases/grant.rs, step 1 of `redeem`).
+ *
+ * Custodian_Attempt_Redeem consumes the Fresh(T, r) token unconditionally
+ * for ANY message claiming to redeem it -- exactly mirroring step 1 of
+ * `redeem()`, which always burns the freshness token before any validation.
+ * Custodian_Redeem_Success then requires the decrypted grant to match
+ * aenc(<o, r, cidU, wstar, sig>, pk(ltkT)) with cidU a registered credential
+ * AND sig a valid signature over beta = H(DS_bind||r||H(o)) under that
+ * credential's public key -- i.e. steps 2-6 of `redeem()` (public-field
+ * check is out of scope since `o` is opaque here; credential lookup, beta
+ * recomputation, and signature verification are exactly this match). The
+ * signature check is expressed via the `verify(...) = true` equation of the
+ * `signing` builtin, enforced through the Eq/restriction idiom below rather
+ * than by pattern-matching `sign(_, ltkU)` directly against the incoming
+ * message: the latter would let a signing-key variable occur only nested
+ * inside a non-invertible constructor, which Tamarin's wellformedness check
+ * flags as unintended pattern matching. If validation fails, no
+ * Custodian_Redeem_Success instance exists for that attempt: the token
+ * stays burnt, the grant stays unredeemed -- "an authorization can be
+ * wasted, never doubled."
+ * ---------------------------------------------------------------------
+ */
+
+rule Custodian_Attempt_Redeem:
+    [ Fresh($T, r), In(msg) ]
+  --[ RedeemAttempt($T, r) ]->
+    [ St_Redeeming($T, r, msg) ]
+
+rule Custodian_Redeem_Success:
+    [ !LtkT($T, ~ltkT),
+      St_Redeeming($T, r, aenc(<o, r, cidU, wstar, sig>, pk(~ltkT))),
+      !Registry(cidU, pkU)
+    ]
+  --[ Redeemed($T, cidU, o, r, wstar),
+      Eq( verify(sig, h(<'DSbind', r, h(o)>), pkU), true )
+    ]->
+    [ !RedeemedGrant($T, cidU, o, wstar) ]
+
+restriction Equality:
+  "All x y #i. Eq(x, y) @ i ==> x = y"
+
+/*
+ * ===========================================================================
+ * LEMMAS
+ * ===========================================================================
+ */
+
+/*
+ * Executability (methodology step 1, mandatory before any security lemma):
+ * at least one fully honest run reaches a successful redemption. This rules
+ * out the risk of vacuously true security lemmas caused by a modeling error
+ * that makes the protocol unexecutable.
+ */
+lemma executable:
+  exists-trace
+  "Ex T cidU o r wstar #i. Redeemed(T, cidU, o, r, wstar) @ i"
+
+/*
+ * AV -- Authorization Verifiability.
+ * Every accepted redemption at the custodian is preceded by a genuine
+ * signing action, attributable to the credential owner named in the
+ * redemption, over the very same challenge r and wrapping material wstar.
+ */
+lemma AV_authorization_verifiability:
+  all-traces
+  "All T cidU o r wstar #i.
+     Redeemed(T, cidU, o, r, wstar) @ i
+     ==> ( Ex T2 #j. AuthorizerSigned(cidU, T2, o, r, wstar) @ j & #j < #i )"
+
+/*
+ * OB -- Operation Binding.
+ * If a redemption at T shares its challenge r and wrapping material wstar
+ * with a signing action by the credential named in that redemption, the
+ * signed operation and the redeemed operation must coincide: the mechanism
+ * cannot admit execution of an operation semantically distinct from the one
+ * reviewed and signed (anti-substitution, Phase II.4 of the paper).
+ */
+lemma OB_operation_binding:
+  all-traces
+  "All T cidU o o2 r wstar #i #j.
+     Redeemed(T, cidU, o, r, wstar) @ i
+     & AuthorizerSigned(cidU, T, o2, r, wstar) @ j
+     ==> o = o2"
+
+/*
+ * CRC -- Confidentiality under Requester Compromise.
+ * The wrapping-key material wstar produced at Phase II.2 never becomes
+ * known to the Dolev-Yao adversary -- even though, per this model's
+ * baseline threat model, that same adversary already plays the Requester
+ * and controls the network in full. This is the intended reading of CRC:
+ * compromise of the requester does not expose authority-bearing material.
+ */
+lemma CRC_wrapping_key_secrecy:
+  all-traces
+  "All U T o r wstar #i.
+     AuthorizerSigned(U, T, o, r, wstar) @ i
+     ==> not (Ex #j. K(wstar) @ j)"
+
+/*
+ * UB (challenge-level, partial) -- Use Boundedness, restricted to what
+ * Phase II alone can express: a single challenge r can back at most one
+ * successful redemption. This is a NECESSARY but not SUFFICIENT condition
+ * for the paper's full UB property, which bounds Phase III *execution*
+ * count via the durable multiplicity budget (custodian/rust/src/operation.rs,
+ * `Multiplicity`) -- a durable, mutable counter that lives strictly outside
+ * Phase II. Do not read this lemma as "SUDP executes an operation at most
+ * once": it only shows that *admission at the custodian* cannot be
+ * replayed under the same challenge, which is the II-layer half of the
+ * admission/effect distinction methodology constraint 3 requires. The
+ * effect-count half is deferred to the Phase III model (next milestone).
+ */
+lemma UB_challenge_single_redemption_partial:
+  all-traces
+  "All T cidU1 cidU2 o1 o2 r wstar1 wstar2 #i #j.
+     Redeemed(T, cidU1, o1, r, wstar1) @ i
+     & Redeemed(T, cidU2, o2, r, wstar2) @ j
+     ==> #i = #j"
+
+end
